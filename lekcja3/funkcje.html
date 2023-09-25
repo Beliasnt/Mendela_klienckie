@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="divek" class="spanik"></div>
+    <span class="spanik tym">A</span>
+    <span class="spanik">B</span>
+    <span class="spanik" data-wiosna="true">C</span>
+    <span class="spanik" style="width:50px;">D</span>
+    <form name="formularz">
+        <input name="inpucik">
+    </form>
+    <img src="#" />
+    <img src="#" usemap="#nazwa" />
+    <a href="#">link</a>
+    <map name="nazwa">
+        <area shape="circle" coords="10,10,5" href="#" />
+
+
+
+        <!-- shape = circle / polygon / rect-->
+    </map>
+    <script>
+        let el = document.querySelector("span.spanik"); // selector CSS
+        console.log(el);
+        el = document.querySelectorAll("span.spanik");
+        console.log(el);
+        el[1].innerText = "<b>Ale jazda!!!</b>"
+        el[2].innerHTML = "<b>Ale jazda</b>"
+        console.log(el[0].className);
+        el[0].className = "spanik bebebe"
+        console.log(el[0].className);
+        el[0].id = "MegaId";
+        console.log(el[3].style.width); // 50px
+        el[1].style.color = "red";
+        //el[1].style["background-color"] = "pink";
+        el[1].style.backgroundColor = "brown"  // z-index zIndex
+        console.log(el[2]["data-wiosna"]);  // undefined
+        console.log(el[2].dataWiosna); // undefined
+        console.log(el[2].getAttribute("data-wiosna")); // true
+
+
+        console.log(document.getElementById("divek"));
+        console.log(document.getElementsByClassName("spanik"));
+        el = document.getElementsByTagName("input")
+        console.log(el); // HTML tag
+        el[0].value = "lol"
+        console.log(document.forms);
+        console.log(document.images);
+        console.log(document.links);
+
+        // UWAGA
+        console.log(formularz, formularz.inpucik, divek);
+        // mogę tez tak, ale nie polecam.
+        // bo nie wiem czy to są zmienne czy coś z HTML(DOM) ????
+
+        /*
+        // funkcje
+        // console.log(suma(10, 20));  // can't access lexical declaration 'suma' before initialization
+        let suma = function (a, b, c) {
+            console.log(arguments, arguments[1], arguments[2]); //
+            return a + b; // moe zwracać, ale nie musi
+        }
+        console.log(suma(10, 20)); // 30
+
+        let log = (str) => {
+            console.log(str);
+        }
+        log("Ale jazda!!!!");
+
+        nazwa();
+        function nazwa() {   // hoisting
+            console.log("ok");
+        }
+
+        // zasięg zmiennych
+        let x = 10;
+        test();
+        console.log("Outside X", x); // 10
+        // console.log("Outside Y", y); // y is not defined
+        //console.log("Outside Z", z); // z is not defined
+        console.log("Outside LOL", lol); // 40
+
+        function test() {
+            let y = 20;
+            var z = 30;
+            lol = 40; // globalne!!!! Nie polecam, ale mozna
+            console.log("Inside X", x); // 10
+            console.log("Inside Y", y); // 20
+            console.log("Inside Z", z); // 30
+            console.log("Inside LOL", lol); // 40
+        }
+
+        for (var i = 0; i < 10; i++) { // let vs var
+
+        }
+        console.log(i); // undefined / 10
+        */
+
+
+        // cykliczności
+        let puk = () => { console.log("puk") };
+        setTimeout(puk, 2000); // czas w [ms]    wywołane po określonym czasie
+        let h = setInterval(function () {
+            console.log("PUK!");
+        }, 1000);
+        //setTimeout("stop()", 4000);
+        //setTimeout(stop, 4000);
+        /*setTimeout(function () {
+            stop()
+        }, 4000)*/
+        setTimeout(() => stop(), 4000)
+
+        function stop() {
+            clearInterval(h);   // clearInterval
+        }
+        // one są asynchroniczne!!!!
+    </script>
+</body>
+
+</html>
