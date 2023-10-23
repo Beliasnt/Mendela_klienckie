@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //1 zadanie
+        document.write("<b>Witaj JavaScript</b><br>");
+
+        //2 zadanie
+        let x = -113;
+        while (x < 111) {
+            x += 2
+            document.write(x, '<br>')
+        }
+
+        //3 zadanie zrobione oboma pętlami
+        let y = 53
+        while (y > 2) {
+            y -= 3
+            document.write(y, " ")
+        }
+
+        document.write("<br>");
+
+        for (let z = 50; z > 0; z -= 3) {
+            document.write(z, " ")
+        }
+
+        document.write("<br>");
+
+        //4 zadanie 1 sposób
+        for (let i = 50; i >= 10; i--) {
+            if (i < 40 && i > 20) {
+                continue
+            }
+            else document.write(i, " ")
+        }
+
+        document.write("<br>");
+
+        //4 zadanie 2 sposób
+        for (let j = 50; j >= 10; j--) {
+            if (j >= 40) {
+                document.write(j, " ")
+            }
+            else if (j <= 20) {
+                document.write(j, " ")
+            }
+        }
+    </script>
+</body>
+
+</html>

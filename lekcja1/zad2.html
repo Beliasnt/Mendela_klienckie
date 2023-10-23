@@ -1,29 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
+
 <body>
     <script>
+        //zad1
+        for (let x = -30; x <= 40; x++) {
+            if (x > 5 && x < 14) {
+                continue
+            }
+            else if (x % 2 == 0) {
+                console.log(x);
+            }
+        }
+        console.log("przerwa między zadaniami");
 
-        let a = prompt("Podaj nić dna")
-        a = a.toUpperCase
-        b = a[]
-
-
-        //const a = ("tgtgggaacaaatctgttgtgtggcaagcatcttttggtcgtcttctcgctgagtccgattaccattgaaggctccctgta")
-        //document.write(a)
-        //document.write(a.toUpperCase().split("").join(" "))
-        //const b = a.split("   ", 3);
-        //document.write(a.split(""))
+        //zad2
+        for (let y = -20; y <= 40; y++) {
+            if (y > 3 && y < 12) {
+                continue
+            }
+            else if (y % 2 == 1 || y % 2 == -1) {
+                console.log(y);
+            }
+        }
+        console.log("przerwa między zadaniami");
         
-
-
-
+        //zad3
+        for (let z = -100; z < 41; z++){
+            if (z > -50 && z < 12) {
+                continue
+            }
+            else if (z % 3 == 0){
+                console.log(z);
+            }
+            
+        }
 
     </script>
 </body>
+
 </html>

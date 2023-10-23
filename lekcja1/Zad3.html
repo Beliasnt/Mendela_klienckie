@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        function przerwa() { document.write("<br><br>") }
+        var number = prompt("Proszę podaj liczbę")
+
+        //przykład a)
+        document.write("<pre>")
+        for (let i = 0; i < number; i++) {
+            document.write("X")
+        }
+
+        przerwa()
+
+        //przykład b)
+        function spacja() {
+            //let a = " "
+            for (let j = 0; j < 2 * number - 3; j++) {
+                document.write(" ")
+            }
+        }
+
+        for (let i = 0; i < number; i++) {
+            document.write("X ")
+        }
+
+        for (let i = 0; i < number - 2; i++) {
+            document.write("<br>" + "X")
+            spacja()
+            document.write("X")
+        }
+        document.write("<br>")
+
+        for (let i = 0; i < number; i++) {
+            document.write("X ")
+        }
+
+        przerwa()
+
+        //przykład c)
+        for (let i = 0; i < number; i++) {
+            document.write("X")
+        }
+        for (let i = 0; i < number - 2; i++) {
+            document.write("<br>" + "X")
+            for (let j = 0; j < number - i - 3; j++) {
+                document.write(" ")
+            }
+            document.write("X")
+        }
+        document.write("<br>X")
+
+        przerwa()
+
+        //przykład d)
+        for (let i = 0; i < number; i++) {
+            for (let j = 1; j <= i + 1; j++) {
+                document.write(j)
+            }
+            document.write("<br>")
+        }
+
+        przerwa()
+
+        //przykład e)
+        for (let i = 0; i < number; i++) {
+            for (let k = number - i; k > 1; k--) {
+                if (k + i > 9) {
+                    document.write("  ")
+                }
+                else document.write(" ")
+            }
+            for (let j = 1; j <= i + 1; j++) {
+                document.write(j)
+            }
+
+            document.write("<br>")
+        }
+
+        przerwa()
+
+        //silnia przykład f)
+
+        function silnia() {
+            let k = number
+            for (let i = 1; i < number; i++) {
+                k *= i
+            }
+            return k
+        }
+        document.write(silnia())
+
+        przerwa()
+
+        //suma liczb przykład g)
+        function suma() {
+            let j = 0
+            for (let i = 0; i < number; i++) {
+                if (i % 2 == 1) {
+                    j+=i
+                }
+            }
+            return j
+        }
+        document.write(suma())
+
+        //liczba pierwsza przykład h)
+        
+
+
+
+
+
+
+        document.write("</pre>")
+    </script>
+</body>
+
+</html>
