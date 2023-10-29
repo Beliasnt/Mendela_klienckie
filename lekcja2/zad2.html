@@ -1,28 +1,125 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        * {
+            white-space: nowrap;
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        .atg {
+            font-weight: bold;
+            color: green;
+        }
+
+        .yellow {
+            background-color: yellow;
+        }
+    </style>
 </head>
+
 <body>
     <script>
+        //prompt
+        let input = prompt("Podaj nić dna", `aagcaaagaatcacacacgcagccgcacccaactctagggtagtttattaaagaaacttc
+aattaaaggcccttccagatgcgctttcggcttcacacccacttactggcggggaagcca
+ttatagttggctttgttaccagcggtgacatccgctcaggattgccgcttttaaggctta
+ttatcaagaacgtccgtctggagatgacacaccgtgttttgcactcatacgccacgcagg
+aatcacctattcaacccggttacccctgatgcggacggcaagtttactagcactcgctcg
+ctccagtacaaggaacaaaccatgcacggtagtgattttatttggcttgtagttaaggtt
+cgttggcgagtaagggccccacttatgttaatctttcccatccgatacttacatgtcggt
+ccccggcacatcctccccttttggaattctcggacatgtgtgcacccctaccattttacg
+tcccgtatttggaccaaccgttatttacgtggtcggccagtgcctctctgaccaatagaa
+gatcccaaagaaccggagcggggtaggacgatcagcaattcttgtagccacctatgaggc
+tcaatctccggtaccctatagataaccaatcggacgatcaccacggggcgtctgatcgga
+ggctgctcgttgcgctgccatcccaaatgctaattgggaggtgacctcaccatgctgccc
+tcctgtcaccaaaggggactggtgagccgagaagtgcgagatctcggatctcgaagtggc
+gacgggacgactcaacgtgtttgaagttcacttgacctgggttgtgcgcgttggcgtcgt
+ttatcagcacgaaacatgcttacggtcccatatctcttcacgaatatgacaataggcctc
+gcaccaataggacgcggagggacatagcaccgttgggccaaagcgtaaatttccagatag
+ctgtaccacctgtatccccctgggcaagacggtagaggc`)
 
-        let a = prompt("Podaj nić dna")
-        a = a.toUpperCase
 
-
-        //const a = ("tgtgggaacaaatctgttgtgtggcaagcatcttttggtcgtcttctcgctgagtccgattaccattgaaggctccctgta")
-        //document.write(a)
-        //document.write(a.toUpperCase().split("").join(" "))
-        //const b = a.split("   ", 3);
-        //document.write(a.split(""))
+        //-------------ZADANIA---------------
+        input = input.replace(/[^a-zA-Z]/g, "") //Wyrzucenie spacji globalnie z końca linijek kodu dna
+        document.write(input, "<br>")
+        input = input.toUpperCase() //Zamiana wszystkich znaków na duże
         
+        let output = ""
+        for (let i = 0; i < input.length; i += 3) { 
+            let kodon = input.substr(i, 3) // rozdzielenie na tryplety
+            if (kodon == "ATG") {
+                output += `<span class="atg">ATG</span> ` // ATG na zielono
+            }
+            else if (kodon == "TAA" || kodon == "TAG" || kodon == "TGA") { //inne kodony na kolor żółty
+                output += `<span class="yellow">${kodon}</span> `
+            }
+            else {
+                output += kodon + " " //dodanie spacji
+            }
+        }
+        
+        // nić komplementarna
+        let output2 = ""
+        for (let i = 0; i < input.length; i++) {
+            if (input[i] == "A") {
+                output2 += "T"
+            }
+            else if (input[i] == "T") {
+                output2 += "A"
+            }
+            else if (input[i] == "G") {
+                output2 += "C"
+            }
+            else if (input[i] == "C") {
+                output2 += "G"
+            }
+            if (i%3 == 2){
+                output2 += " "
+            }
+        }
+
+        //statystyka
+        let counts = [] //przechowuje kodony i ich ilości (dwuelementowa tablica)
+        for (let i = 0; i < input.length; i += 3) {
+            let kodon = input.substr(i, 3) //dzielenie na 3
+            let index = counts.map(kod => kod[0]).indexOf(kodon) //znalezienie, czy istnieje dany kodon (jeżeli istnieje to zwraca index)
+            if (index == -1) {
+                counts.push([kodon, 1]) // dodanie nieistniejącego kodonu do tablicy
+            }
+            else {
+                counts[index][1] += 1 // zwiększenie ilości kodonu jeżeli kodon istnieje
+            } //counts[index] = znaleziony kodon
+        }
+
+        //sortowanie
+        counts.sort(function (a, b) { return b[1] - a[1] }) //sortowanie malejąco 
+        let color = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`
+        let output3 = ""
+        for (let i = 0; i < counts.length; i++){
+            if (i%5 == 0) { //co piąty
+                color = `rgb(${Math.random() * 255}, ${Math.random() * 255}, ${Math.random() * 255})`
+            }
+            output3 += `<span style="background-color:${color}">${counts[i][0]} - ${counts[i][1]}</span>` + "<br>"
+            
+        }
 
 
-
-
+        //--------WYPISANIE WSZYSTKIEGO---------
+        document.write(output)
+        document.write("<br><br>")
+        document.write(output2)
+        document.write("<br>")
+        document.write(output2.toLowerCase().replaceAll(" ", "")) //wypisanie nici komplemetarnej inputa bez spacji
+        document.write("<br><br>")
+        document.write(output3)
+        
     </script>
 </body>
+
 </html>

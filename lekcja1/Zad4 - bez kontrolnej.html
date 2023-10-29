@@ -14,10 +14,10 @@
         function start() {
             function przerwa() { document.write("<br><br>") }
             let pesel = prompt("Podaj swój pesel", "05271601994")
-            
+
             //check if wszystko intem
-            for (i=0; i < pesel.length; i++){
-                if (pesel[i] < "0" || pesel[i] > "9"){
+            for (i = 0; i < pesel.length; i++) {
+                if (pesel[i] < "0" || pesel[i] > "9") {
                     alert("Niedozwolone znaki")
                     return false
                 }
@@ -37,7 +37,7 @@
             }
 
             //check miesiąc 
-            let tempMonth = pesel[2] + pesel[3] 
+            let tempMonth = pesel[2] + pesel[3]
             let century = 0
             let month = 0
             if (pesel[2] == 0 && tempMonth <= 12) { //sprawdzenie 3 cyfry, oraz czy jest miesiącem
@@ -127,6 +127,8 @@
 
         let returnCode = start()
         if (!returnCode) document.write("Odśwież stronę")
+
+        
     </script>
 </body>
 

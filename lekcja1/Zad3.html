@@ -6,6 +6,28 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        * {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        td {
+            text-align: center;
+            padding: 5px;
+        }
+
+        .row {
+            background-color: #FAEEAC
+        }
+
+        .content {
+            background-color: #A55D8F
+        }
+
+        .equal {
+            background-color: #FAE0F2
+        }
+    </style>
 </head>
 
 <body>
@@ -13,9 +35,8 @@
 
         function przerwa() { document.write("<br><br>") }
         var number = prompt("Proszę podaj liczbę")
-
-        //przykład a)
         document.write("<pre>")
+        //przykład a)
         for (let i = 0; i < number; i++) {
             document.write("X")
         }
@@ -80,7 +101,7 @@
                 }
                 else document.write(" ")
             }
-            for (let j = 1; j <= i + 1; j++) {
+            for (let j = 1; i + 1 >= j; j++) {
                 document.write(j)
             }
 
@@ -107,19 +128,37 @@
             let j = 0
             for (let i = 0; i < number; i++) {
                 if (i % 2 == 1) {
-                    j+=i
+                    j += i
                 }
             }
             return j
         }
-        document.write(suma())
-
+        document.write('Suma liczb nieparzystych w zakresie od 0 do podanej liczby to ', suma())
+        przerwa()
         //liczba pierwsza przykład h)
-        
 
+        przerwa()
 
+        //tabliczka mnożenia przykład i)
 
+        document.write("<table><tr><td></td>")
+        for (let i = 1; i <= number; i++) {
+            document.write(`<td class="row"> ${i} </td>`) //dodanie 1 rzędu
+        }
+        document.write("</tr>")
+        for (let i = 1; i <= number; i++) {
+            document.write(`<tr><td class="row"> ${i} </td>`) //dodanie 1 koloumny
+            for (let j = 1; j <= number; j++) {
+                if (i == j) {
+                    document.write(`<td class="equal"> ${i * j} </td>`) //dodanie przekątnej
+                    continue
+                }
+                document.write(`<td class="content"> ${i * j} </td>`) //obliczenia
 
+            }
+            document.write("</tr>")
+        }
+        document.write("</table>")
 
 
         document.write("</pre>")
