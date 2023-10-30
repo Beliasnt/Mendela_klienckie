@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function test(d) {
+            console.log(d);
+            d.innerText = 'LOL';
+        }
+
+        function init() {
+            const el = document.getElementById("b");
+
+
+            /*
+            el.onclick = function () {
+                console.log("ale jazda", this);
+                this.innerText = "lool";
+            }
+            */
+
+            /*
+            el.onclick = (e) => {
+                console.log("ale jazda", this, e, e.target);
+                e.target.innerText = "lool";
+            }
+            */
+
+            /*
+            const f = function () {
+                console.log("aaaa");
+            }
+
+            el.onclick = f;
+            el.onclick = function () {
+                console.log("bbbbb")
+            }
+            */
+            // ta technika nadpisuje poprzedią funkcję na danym zdarzeniu!!!
+
+            // Listenery
+            /*
+            el.addEventListener("click", (e) => {
+                console.log("1111", e, e.target, this);
+            }, false);
+
+            el.addEventListener("click", function (e) {
+                console.log("22222", e, e.target, this);
+            }, false);
+
+            const ff = function () {
+                console.log("dsdsdsd")
+                setTimeout(() => {
+                    this.removeEventListener("click", ff);
+                }, 1000);
+            }
+            el.addEventListener("click", ff, false);
+            // w tej technice funkcje się "dodają kolejno"
+            */
+
+            // event bubbling/capturing
+            const inner = document.getElementById("inner");
+            inner.addEventListener("click", (e) => {
+                console.log("INNER");
+                e.stopPropagation();
+            }, false);
+
+            const outer = document.getElementById("outer");
+            outer.addEventListener("click", () => {
+                console.log("OUTER")
+            }, false);
+        }
+    </script>
+</head>
+
+<body onload="init();">
+    <!--
+    <button onmouseover="console.log('lol');" onclick="console.log('no')">A</button>
+    <button onclick="console.log(this);this.innerText='a';">A</button>
+    <button onclick="console.log(this);this.innerText='b';">B</button>
+
+    <button onclick="test(this);">C</button>
+    <button onclick="test(this);">D</button>
+    -->
+
+    <button id="b">A</button>
+    <div id="outer">
+        OUTER
+        <div id="inner">
+            INNER
+        </div>
+    </div>
+</body>
+
+</html>

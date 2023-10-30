@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        img {
+            margin-top: 25vh;
+            margin-left: -25vh;
+            left: 50%;
+            position: absolute;
+        }
+    </style>
+    <script>
+        function klikanie() {
+            let klik = document.getElementsByClassName("sek")[i];
+            let i = this
+            klik.onclick = function () {
+                console.log("klik")
+            }
+        }
+    </script>
+    
+
+</head>
+
+<body>
+    <div style="height: 100vh; width: 100wh;">
+        <img src="./img/czolowa.png" alt="czolowa" usemap="#mapa">
+        <map name="mapa" id="map">
+            <area alt="30" title="30 sekund" href="#" coords="42,40,68,153,332,64,167,50" shape="poly" class="sek" onclick="klikanie()">
+            <area alt="60" title="60 sekund" href="#" coords="82,219,341,111,365,234" shape="poly" class="sek" onclick="klikanie()">
+            <area alt="90" title="90 sekund" href="#" coords="94,269,115,384,371,300" shape="poly" class="sek" onclick="klikanie()">
+        </map>
+    </div>
+</body>
+
+</html>
