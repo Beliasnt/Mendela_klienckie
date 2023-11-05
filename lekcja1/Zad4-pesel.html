@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>PESEL</header>
+
+    <script>
+        function start() {
+            function przerwa() { document.write("<br><br>") }
+            let pesel = prompt("Podaj swój pesel", "05271601994")
+
+            //check if wszystko intem
+            for (i = 0; i < pesel.length; i++) {
+                if (pesel[i] < "0" || pesel[i] > "9") {
+                    alert("Niedozwolone znaki")
+                    return false
+                }
+            }
+
+            //check długość 
+            if (pesel.length != 11) {
+                alert("Zła długość Peselu!!!!")
+                return false
+            }
+            przerwa()
+
+            //check sumy kontrolnej
+            let suma = 0
+            let sumaKontrolna = 0
+            let wagi = [1, 3, 7, 9, 1, 3, 7, 9, 1, 3, 1]
+            for (let i = 0; i < pesel.length; i++) {
+                suma = wagi[i] * parseInt(pesel[i])
+                sumaKontrolna = suma + sumaKontrolna
+            }
+            if (sumaKontrolna % 10 != 0) {
+                alert("Niepoprawny numer pesel")
+                return false
+            }
+
+
+            //check rok
+            let year = pesel[0] + pesel[1]
+            let yearString = year.toString()
+            if (year < 10 && yearString[0] != "0") {
+                yearString = "0" + year
+            }
+
+            //check miesiąc i tysiąclecie
+            let tempMonth = pesel[2] + pesel[3]
+            let century = 0
+            let month = 0
+            if (tempMonth > 0 && tempMonth <= 12) { //sprawdzenie 3 cyfry, oraz czy jest miesiącem
+                month = tempMonth // miesiąc
+                century = 19 //stulecie
+            }
+            else if (tempMonth > 0 && tempMonth - 20 <= 12) {
+                month = tempMonth - 20
+                century = 20
+            }
+            else if (tempMonth > 0 && tempMonth - 40 <= 12) {
+                month = tempMonth - 40
+                century = 21
+            }
+            else if (tempMonth > 0 && tempMonth - 60 <= 12) {
+                month = tempMonth - 60
+                century = 22
+            }
+            else if (tempMonth > 0 && tempMonth - 80 <= 12) {
+                month = tempMonth - 80
+                century = 18
+            }
+            else {
+                alert("Błędny pesel - złe stulecie lub nieistniejący miesiąc(idk)")
+                return false
+            }
+
+            let monthString = month.toString()
+            if (month < 10 && monthString[0] != "0") { //+0 if string ucina 0
+                monthString = "0" + month
+            }
+
+
+            //check dzień
+            let day = Number(pesel[4] + pesel[5]);
+            let dayString = day.toString()
+            if (day < 10 && dayString[0] != "0") {
+                dayString = "0" + day
+            }
+
+            console.log(day, month, year, century)
+
+
+            //--------WYPISANIE WSZYSTKIEGO----------
+            //check płeć
+            if (pesel[9] % 2 == 0) {
+                document.write("Jesteś Kobietą")
+            }
+            else document.write("Jesteś Mężczyzną")
+            przerwa()
+            
+            //pełna data urodzenia
+            document.write("Twoja data urodzenia to " + dayString + "." + monthString + "." + century + yearString)
+            przerwa()
+
+            return true
+        }
+
+
+        let returnCode = start()
+        if (!returnCode) document.write("Odśwież stronę")
+
+
+    </script>
+</body>
+
+</html>

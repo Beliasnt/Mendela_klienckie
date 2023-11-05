@@ -33,9 +33,10 @@
 <body>
     <script>
 
-        function przerwa() { document.write("<br><br>") }
+        function przerwa() { document.write("<br>-------------------------------------------------------------------------------<br>") }
         var number = prompt("Proszę podaj liczbę")
         document.write("<pre>")
+
         //przykład a)
         for (let i = 0; i < number; i++) {
             document.write("X")
@@ -61,9 +62,10 @@
             document.write("X")
         }
         document.write("<br>")
-
-        for (let i = 0; i < number; i++) {
-            document.write("X ")
+        if (number != 1) {
+            for (let i = 0; i < number; i++) {
+                document.write("X ")
+            }
         }
 
         przerwa()
@@ -79,7 +81,10 @@
             }
             document.write("X")
         }
-        document.write("<br>X")
+        if (number != 1) {
+            document.write("<br>X")
+        }
+
 
         przerwa()
 
@@ -94,18 +99,15 @@
         przerwa()
 
         //przykład e)
-        for (let i = 0; i < number; i++) {
-            for (let k = number - i; k > 1; k--) {
-                if (k + i > 9) {
-                    document.write("  ")
+        for (let i = 0; i <= number; ++i) {
+            for (let j = number; j >= 1; --j) {
+                if (j >= i + 1) {
+                    document.write(" ");
+                } else {
+                    document.write(j);
                 }
-                else document.write(" ")
             }
-            for (let j = 1; i + 1 >= j; j++) {
-                document.write(j)
-            }
-
-            document.write("<br>")
+            document.write("<br>");
         }
 
         przerwa()
@@ -133,9 +135,30 @@
             }
             return j
         }
-        document.write('Suma liczb nieparzystych w zakresie od 0 do podanej liczby to ', suma())
+        document.write(`Suma liczb nieparzystych w zakresie od 0 do ${number} to `, suma())
         przerwa()
         //liczba pierwsza przykład h)
+
+        function isPrime(number) {
+            let isPrime = true;
+            if (number == 1) { //1 nie jest liczbą pierwszą
+                return "1 to nie jest liczba pierwsza";
+            }
+
+            else if (number > 1) {
+                for (let i = 2; i < number; i++) {
+                    if (number % i == 0) {
+                        isPrime = false;
+                        alert("Liczba " + number + " nie jest pierwsza")
+                        break;
+                    }
+                    else alert("Liczba " + number + " jest pierwsza")
+                    break
+                }
+            }
+            return isPrime;
+        }
+        document.write(isPrime(number));
 
         przerwa()
 
