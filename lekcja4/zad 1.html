@@ -7,33 +7,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        #main {
+            height: 100vh; 
+            width: 100wh;
+            position: relative;
+        }
         img {
             margin-top: 25vh;
             margin-left: -25vh;
             left: 50%;
             position: absolute;
         }
+        .rel {
+            
+        }
     </style>
     <script>
+
         function klikanie() {
-            let klik = document.getElementsByClassName("sek")[i];
-            let i = this
-            klik.onclick = function () {
-                console.log("klik")
+            let klik30 = document.getElementById("sek30")
+            let klik60 = document.getElementById("sek60")
+            let klik90 = document.getElementById("sek90")
+
+
+            // let images = ["1.jpg", "1.jpg", "2.jpg", "2.jpg", "3.jpg", "3.jpg",
+            //     "4.jpg", "4.jpg", "5.jpg", "5.jpg", "6.jpg", "6.jpg", "7.jpg", "7.jpg"]
+            klik30.onclick = function () {
+                let main = document.getElementById("main")
+                main.innerHTML = "<h1>MEMORY (30[s])</h1>"
+                for (let i = 0; i < 16; i++) {
+                    main.innerHTML += `<img src="./img/0.jpg" alt="0" style="right:${i*20}%" class="rel">`
+                }
             }
         }
     </script>
-    
+
 
 </head>
 
-<body>
-    <div style="height: 100vh; width: 100wh;">
+<body onload="klikanie()">
+    <div id="main">
         <img src="./img/czolowa.png" alt="czolowa" usemap="#mapa">
         <map name="mapa" id="map">
-            <area alt="30" title="30 sekund" href="#" coords="42,40,68,153,332,64,167,50" shape="poly" class="sek" onclick="klikanie()">
-            <area alt="60" title="60 sekund" href="#" coords="82,219,341,111,365,234" shape="poly" class="sek" onclick="klikanie()">
-            <area alt="90" title="90 sekund" href="#" coords="94,269,115,384,371,300" shape="poly" class="sek" onclick="klikanie()">
+            <area alt="30" title="30 sekund" href="#" coords="42,40,68,153,332,64,167,50" shape="poly" id="sek30"
+                onclick="klikanie()">
+            <area alt="60" title="60 sekund" href="#" coords="82,219,341,111,365,234" shape="poly" id="sek60"
+                onclick="klikanie()">
+            <area alt="90" title="90 sekund" href="#" coords="94,269,115,384,371,300" shape="poly" id="sek90"
+                onclick="klikanie()">
         </map>
     </div>
 </body>
