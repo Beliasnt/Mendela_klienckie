@@ -8,18 +8,35 @@
     <title>Document</title>
     <style>
         #main {
-            height: 100vh; 
+            height: 100vh;
             width: 100wh;
             position: relative;
+
         }
-        img {
+
+        h1 {
+            margin-left: 40%;
+        }
+
+        .mapa {
             margin-top: 25vh;
             margin-left: -25vh;
             left: 50%;
-            position: absolute;
+            position: relative;
         }
-        .rel {
-            
+
+        .container {
+            height: 600px;
+            width: 600px;
+            position: absolute;
+            left: 30%;
+        }
+
+        .klocki {
+            position: relative;
+            height: 150px;
+
+
         }
     </style>
     <script>
@@ -30,16 +47,41 @@
             let klik90 = document.getElementById("sek90")
 
 
-            // let images = ["1.jpg", "1.jpg", "2.jpg", "2.jpg", "3.jpg", "3.jpg",
-            //     "4.jpg", "4.jpg", "5.jpg", "5.jpg", "6.jpg", "6.jpg", "7.jpg", "7.jpg"]
+            let images = ["1.jpg", "1.jpg", "2.jpg", "2.jpg", "3.jpg", "3.jpg",
+                "4.jpg", "4.jpg", "5.jpg", "5.jpg", "6.jpg", "6.jpg", "7.jpg", "7.jpg", "8.jpg", "8.jpg"]
+
             klik30.onclick = function () {
                 let main = document.getElementById("main")
-                main.innerHTML = "<h1>MEMORY (30[s])</h1>"
-                for (let i = 0; i < 16; i++) {
-                    main.innerHTML += `<img src="./img/0.jpg" alt="0" style="right:${i*20}%" class="rel">`
+
+                function getImage() {
+                    return Math.floor(Math.random() * images.length / 2 + 1)
                 }
+
+                let pom = `<h1>MEMORY (30[s])</h1><div class="container">` //stworzenie planszy i containera z 16 pustymi obrazkami
+                for (let i = 0; i < 16; i++) {
+                    pom += `<img src="./img/0.jpg" name="${i}" class="klocki"  >`
+
+                }
+                pom += `</div>`;
+                main.innerHTML = pom
+
+
+
+                for (let i = 0; i < 16; i++) {
+                    let kafelek = document.getElementsByName(i)
+                    kafelek[0].onclick = function () {
+                       this.src = `img/${getImage()}.jpg`
+                    }
+                }
+
             }
+
+
+
         }
+
+
+
     </script>
 
 
@@ -47,7 +89,7 @@
 
 <body onload="klikanie()">
     <div id="main">
-        <img src="./img/czolowa.png" alt="czolowa" usemap="#mapa">
+        <img src="./img/czolowa.png" alt="czolowa" usemap="#mapa" class="mapa">
         <map name="mapa" id="map">
             <area alt="30" title="30 sekund" href="#" coords="42,40,68,153,332,64,167,50" shape="poly" id="sek30"
                 onclick="klikanie()">
