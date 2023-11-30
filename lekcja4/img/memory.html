@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Memory</title>
+
+    <style>
+        * {
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        img:nth-child(4n+1) {
+            clear: both;
+        }
+
+        #div {
+            width: 500px;
+            position: relative;
+        }
+
+        #div2 {
+            position: absolute;
+            top: 0;
+            left: 40px;
+            overflow: hidden;
+        }
+
+        #pasek {
+            width: 500px;
+            height: 30px;
+            background-color: white;
+        }
+
+        img {
+            width: 100px;
+            height: 100px;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+
+    <script>
+        function init() {
+
+            var img = document.images
+            //console.log(img)
+            var kafelki = ["1.jpg", "1.jpg", "2.jpg", "2.jpg", "3.jpg", "3.jpg", "4.jpg", "4.jpg", "5.jpg", "5.jpg", "6.jpg", "6.jpg", "7.jpg", "7.jpg", "8.jpg", "8.jpg"]
+
+            function losuj(kafelki) { //funkcja mieszająca "karty"
+                for (var i = kafelki.length - 1; i > 0; i--) {
+                    var a = Math.floor(Math.random() * i)
+                    var b = kafelki[i]
+                    kafelki[i] = kafelki[a]
+                    kafelki[a] = b
+                }
+                return kafelki;
+            }
+            losuj(kafelki)
+
+
+
+
+            //GRA
+            for (var b = 0; b < kafelki.length; b++) {//zakrywa karty
+                img[b].src = "0.jpg"
+            }
+            var kafelkiOdkryte = [] //tablica przechowująca odkryte karty
+            var moznaKlikac = true //zeby nie klikac wiecej niz 2 karty na raz
+            var zgadnieteKarty = [] //tablica odgadnietych kart
+            var zabezpieczenie = [] //tablica pomocnicza dla zabezpieczenia o kliknieciu 2 razy w 1 karte
+
+            var gra = function (a) { //gra
+                return function () {
+
+                    if (moznaKlikac == true) {
+                        img[a].src = kafelki[a]
+                        kafelkiOdkryte.push(kafelki[a]) //dodawanie kart do tablicy
+
+                        for (var p = 0; p < kafelkiOdkryte.length; p++) { //zabezpiecza odkrywanie karty odagadnietej i nieodgadnietej
+                            for (var o = 0; o < zgadnieteKarty.length; o++) {
+                                if (zgadnieteKarty[o] == kafelkiOdkryte[p]) {
+                                    kafelkiOdkryte = []
+
+                                }
+                            }
+                        }
+                        console.log("img[a].id=" + img[a].id)
+
+                        zabezpieczenie.push(img[a].id)
+                        console.log(zabezpieczenie)
+                        for (var x = 0; x < kafelki.length; x++) { //zabezpiecza przed kliknieciem 2 razy w ta sama karte
+                            if (zabezpieczenie[0] == zabezpieczenie[1]) {
+                                img[a].src = "0.jpg"
+                                kafelkiOdkryte = []
+                                zabezpieczenie = []
+                            }
+                        }
+                        console.log("kafelkiOdkryte=" + kafelkiOdkryte)
+                        if (kafelkiOdkryte.length == 2) {
+                            moznaKlikac = false
+                            if (kafelkiOdkryte[0] == kafelkiOdkryte[1]) { //znajdowanie par 
+                                setTimeout(function () {
+                                    prawda(a)
+                                }, 300)
+                            }
+                            else {
+                                setTimeout(function () {
+                                    nieprawda(a)
+                                }, 500)
+                            }
+                        }
+                    }
+                }
+            }
+            for (a = 0; a < kafelki.length; a++) {
+                img[a].onclick = gra(a)
+            }
+
+            function prawda(a) { //wykonuje się kiedy 2 odkryte elementy są takie same
+                img[a].src = kafelkiOdkryte[0]
+                img[a].src = kafelkiOdkryte[1]
+                zgadnieteKarty.push(kafelkiOdkryte[0])
+                zgadnieteKarty.push(kafelkiOdkryte[1])
+                console.log(zgadnieteKarty)
+                kafelkiOdkryte = []
+                moznaKlikac = true
+                zabezpieczenie = []
+                if (zgadnieteKarty.length == 16) { //sprawdzenie, czy sie wygralo
+                    window.alert("MOJE GRATULACJE")
+                    /* if(){ //sprawdzenie wyniku i wpisanie do topki
+                         window.prompt("Podaj swój nick")
+                     }*/
+                    init() //po wygranej grze, resetuje ją, zamiast przeladowac strone
+                }
+            }
+            function nieprawda(a) { //zakrywa elementy, kiedy nie są takie same
+
+                for (var p = 0; p < kafelkiOdkryte.length; p++) { //zakrywa obie niezgadniete karty
+                    for (var o = 0; o < kafelki.length; o++) {
+                        if (kafelkiOdkryte[p] == kafelki[o]) {
+                            img[o].src = "0.jpg"
+                        }
+                    }
+                }
+                kafelkiOdkryte = []
+                zabezpieczenie = []
+                moznaKlikac = true
+            }
+
+            //CZAS
+            var div2 = document.getElementById("div2")
+            div2.innerHTML = "<img src='czolowa.png' style='width:420px;height:420px;' usemap='#image-map'><map name='image-map'><area alt='30s' id='30s' onclick='wybor(30)' coords='42,41,68,154,330,62' shape='poly'><area alt='60s' id='60s' onclick='wybor(60)' coords='83,219,363,234,340,110' shape='poly'><area alt='90s' id='90s' onclick='wybor(90)' coords='93,268,112,382,366,298' shape='poly'></map>" //dynamicznie tworzy pierwszą karte, wraz z mapa odnośnikow 
+            h1.innerHTML = "MEMORY"
+            var pasek = document.getElementById("pasek")
+
+            document.getElementById("30s").addEventListener("click", function () { wybor(30) })
+            document.getElementById("60s").addEventListener("click", function () { wybor(60) })
+            document.getElementById("90s").addEventListener("click", function () { wybor(90) })
+
+            function wybor(czas) { //okresla tryb gry
+                document.getElementById("h1").innerHTML = "MEMORY (" + czas + "[s])"
+                div2.innerHTML = ""
+                pasek.style.background = '#8bef86'
+            }
+            var pierwsza = 0
+            var div = document.getElementById("div")
+            div.onclick = function () { myFunction() }
+            function myFunction() {
+                pierwsza++
+                time()
+            }
+
+            function time() {
+                console.log(pierwsza)
+                if (pierwsza == 2) {
+                    var data = new Date()
+                    //console.log(data)
+                    var poczatek = Date.parse(data);
+                    //console.log(poczatek)
+                    var czas = document.getElementById("h1").innerHTML.slice(6, 8)
+                    //console.log(czas)
+                    var koniec = Date.parse(data) + (czas * 1000);
+                    //console.log(koniec)
+
+                    setTimeout(function () { //fukncja odliczajaca czas
+                        if (czas / 100 == (poczatek - koniec) * (20 / 100)) { //zmienia kolor paska
+                            pasek.style.background = "#ea9b96"
+                        }
+                        setInterval(function () {
+                            var nowaData = new Date()
+                        }, 1)
+                        pasek.style.width = czas / 100 * 500
+                    }, parseInt(czas) * 1000)
+                }
+            }
+
+
+        }
+    </script>
+</head>
+
+<body onload="init()">
+    <h1 id="h1"></h1>
+    <div id="pasek">
+        <div id="zamPasek"></div>
+    </div>
+    <div id="div">
+        <img src="0.jpg" alt="memory" id="1" />
+        <img src="0.jpg" alt="memory" id="2" />
+        <img src="0.jpg" alt="memory" id="3" />
+        <img src="0.jpg" alt="memory" id="4" />
+
+        <img src="0.jpg" alt="memory" id="5" />
+        <img src="0.jpg" alt="memory" id="6" />
+        <img src="0.jpg" alt="memory" id="7" />
+        <img src="0.jpg" alt="memory" id="8" />
+
+        <img src="0.jpg" alt="memory" id="9" />
+        <img src="0.jpg" alt="memory" id="10" />
+        <img src="0.jpg" alt="memory" id="11" />
+        <img src="0.jpg" alt="memory" id="12" />
+
+        <img src="0.jpg" alt="memory" id="13" />
+        <img src="0.jpg" alt="memory" id="14" />
+        <img src="0.jpg" alt="memory" id="15" />
+        <img src="0.jpg" alt="memory" id="16" />
+
+        <div id="div2">
+
+        </div>
+    </div>
+</body>
+
+</html>
