@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            align-items: center;
+            display: flex;
+            text-align: center;
+        }
+
+        #main {
+            height: 100vh;
+            width: 100vw;
+            position: relative;
+
+        }
+
+        .container {
+            height: 600px;
+            width: 600px;
+            position: absolute;
+            left: 30%;
+        }
+
+        .klocki {
+            position: relative;
+            height: 142px;
+            width: 142px;
+            border: 0.1px solid rgb(61, 18, 148);
+            margin: 1px;
+        }
+
+        #pasek {
+            height: 25px;
+            background-color: aqua;
+            border: 1px solid black;
+            text-align: center;
+            margin-top: -10px;
+            margin-bottom: 10px;
+        }
+
+        #time {
+            height: 25px;
+            text-align: center;
+            margin-top: -33.5px;
+            margin-bottom: 10px;
+        }
+    </style>
+    <script>
+
+        let images = ["1.jpg", "1.jpg", "2.jpg", "2.jpg", "3.jpg", "3.jpg",
+            "4.jpg", "4.jpg", "5.jpg", "5.jpg", "6.jpg", "6.jpg", "7.jpg", "7.jpg", "8.jpg", "8.jpg"]
+
+        function plansza() { // stworzenie planszy z 16img losowymi
+            let tabela_plansza = []
+            for (let i = 0; i < 16; i++) {
+                let index = Math.floor(Math.random() * images.length + 1)
+                if (!tabela_plansza.includes(index)) {
+                    tabela_plansza.push(index)
+                }
+                else { i-- }
+            }
+            console.log(tabela_plansza)
+            return tabela_plansza
+        }
+        var tabela_plansza = plansza()
+
+        function getImage(a) { //losowanie kafelków
+            return `img/${Math.ceil(tabela_plansza[a] / 2)}.jpg`
+
+        }
+
+
+
+        function klikanie() {
+            let klik30 = document.getElementById("30")
+            let klik60 = document.getElementById("60")
+            let klik90 = document.getElementById("90")
+            var p = 0
+
+
+            //działanie gry
+            function game(czas) {
+
+
+                //ustwienie czasu
+                function time() {
+                    // Dodanie timera
+                    let tryb = document.getElementById("h1").innerHTML.slice(8, 10)
+                    let timer = new Date();
+                    timer.setSeconds(timer.getSeconds() + parseInt(tryb))
+
+                    // Stworzenie interwału który wykonuje się co sekundę
+                    let x = setInterval(function () {
+
+                        // Aktualna data
+                        let now = new Date().getTime();
+
+                        // Liczenie różnicy
+                        let t = timer - now;
+
+                        // Wartości minut, sekund i milisekund
+                        let minutes = Math.floor(
+                            (t % (1000 * 60 * 60)) / (1000 * 60));
+                        let seconds = Math.floor(
+                            (t % (1000 * 60)) / 1000);
+                        let miliseconds = Math.floor(
+                            (t % 1000)
+                        )
+                        if (seconds < 10) {
+                            seconds = "0" + seconds
+                        }
+                        if (miliseconds < 100 && miliseconds > 10){
+                            miliseconds = "0" + miliseconds
+                        }
+                        if (miliseconds < 10){
+                            miliseconds = "00" + miliseconds
+                        }
+                        // Wypisanie
+                        document.getElementById("time").innerHTML =
+                           "0" + minutes + ":" + seconds + "." + miliseconds;
+
+                        // Wygrana
+                        if (zgadnieteKarty.length == 16) {
+                            document.getElementById("time").innerHTML = "WYGRAŁEŚ";
+                            moznaKlikac = false
+
+                        }
+                        // Przegrana
+                        else if (t < 0) {
+                            clearInterval(x);
+                            document.getElementById("time").innerHTML = "KONIEC CZASU";
+                            moznaKlikac = false
+                        }
+                    }, 1);
+                }
+
+
+
+
+                let main = document.getElementById("main")
+                let pom = `<h1 id="h1">MEMORY (${czas}[s])</h1><div class="container"><div id="pasek"></div><div id="time"></div>` //stworzenie planszy i containera z 16 pustymi obrazkami
+                for (let i = 0; i < 16; i++) {
+                    pom += `<img src="./img/0.jpg" name="${i}" class="klocki">`
+
+                }
+                pom += `</div>`;
+                main.innerHTML = pom
+                 
+                // dynamiczny pasek
+                function pasek() {
+                    let pasek = document.getElementById("pasek")
+                    let d = 600
+                    let len = 0
+                    let perc = czas * 1000
+                    len = 2410 / perc
+                    setInterval(function () {
+                        pasek.style.width = `${d}px`
+                        d = d - len
+                        if (d < 0) {
+                            pasek.style.border = "white 0px"
+                            pasek.style.backgroundColor = "white"
+                        }
+                        if (zgadnieteKarty.length == 16) {
+                            len = 0
+                        }
+                    }, 1)
+                }
+
+
+                let kafelkiOdkryte = [] //tablica przechowująca odkryte karty
+                let moznaKlikac = true //zeby nie klikac wiecej niz 2 karty na raz
+                let zgadnieteKarty = [] //tablica odgadnietych kart
+
+                for (let i = 0; i < 16; i++) {
+                    let kafelek = document.getElementsByName(i)
+                    kafelek[0].addEventListener("click", function () {
+                        if (moznaKlikac == false) {
+                            return
+                        }
+
+                        moznaKlikac = true
+                        let kliknienty = tabela_plansza[this.name]
+
+                        if (kafelkiOdkryte.length < 2) { //mniej niż 2 kafelki = mogę dodać
+                            p += 1
+                            console.log(zgadnieteKarty, kliknienty)
+                            // console.log("już zgadnięty: ", zgadnieteKarty.includes(kliknienty))
+                            if (kafelkiOdkryte[0] != kliknienty && !zgadnieteKarty.includes(kliknienty)) { //jeżeli element w tablicy = klikanemu to nic się nie dziej (prevent double click)
+                                kafelkiOdkryte.push(kliknienty) // dodaje element
+                                this.src = getImage(i)
+                                if (p == 1) {
+                                    time()
+                                    pasek()
+                                }
+
+                            }
+                            console.log(kafelkiOdkryte)
+                        }
+                        // jeżeli odkryje się dwa kafelki
+                        if (kafelkiOdkryte.length == 2) {
+                            moznaKlikac = false
+                            k0 = kafelkiOdkryte[0]
+                            k1 = kafelkiOdkryte[1]
+                            kafelkiOdkryte = k0 > k1 ? [k1, k0] : [k0, k1]
+                            console.log(kafelkiOdkryte)
+                            if (kafelkiOdkryte[0] == kafelkiOdkryte[1] - 1 && kafelkiOdkryte[0] % 2 == 1) { //sprawdzenie czy para (wodna)
+                                zgadnieteKarty.push(...kafelkiOdkryte)
+                                kafelkiOdkryte = []
+                                moznaKlikac = true
+                            }
+                            else { //jeżeli nie para
+                                let kafelek1 = document.getElementsByName(tabela_plansza.indexOf(kafelkiOdkryte[0]))[0]
+                                let kafelek2 = document.getElementsByName(tabela_plansza.indexOf(kafelkiOdkryte[1]))[0]
+                                moznaKlikac = false
+                                setTimeout(function () {
+                                    kafelek1.src = "img/0.jpg"
+                                    kafelek2.src = "img/0.jpg"
+                                    moznaKlikac = true
+                                }, 500)
+
+                                kafelkiOdkryte = []
+
+                            }
+
+
+
+                        }
+
+                    }
+                    )
+                }
+            }
+
+            //start gry
+            klik30.addEventListener("click", function () {
+                game(30)
+
+            })
+            klik60.addEventListener("click", function () {
+                game(60)
+            })
+            klik90.addEventListener("click", function () {
+                game(90)
+            })
+        }
+
+
+    </script>
+
+
+</head>
+
+<body onload="klikanie()">
+    <div id="main">
+        <h1 style="">MEMORY</h1>
+        <img src="./img/czolowa.png" alt="czolowa" usemap="#mapa" class="mapa">
+        <map name="mapa" id="map">
+            <area alt="30" title="30 sekund" href="#" coords="42,40,68,153,332,64,167,50" shape="poly" id="30">
+            <area alt="60" title="60 sekund" href="#" coords="82,219,341,111,365,234" shape="poly" id="60">
+            <area alt="90" title="90 sekund" href="#" coords="94,269,115,384,371,300" shape="poly" id="90">
+        </map>
+    </div>
+</body>
+
+</html>
