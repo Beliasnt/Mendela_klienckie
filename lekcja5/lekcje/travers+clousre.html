@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+ 
+        .e {
+            border: solid 1px;
+            width: 50px;
+            height: 50px;
+            float: left;
+        }
+ 
+        #c {
+            background-color: yellow;
+            height: 50px;
+            width: 300px;
+        }
+    </style>
+</head>
+ 
+<body oncontextmenu="console.log('lol'); event.preventDefault();">
+    <div id="c">
+        <div class="e" onmouseover="change(this);"></div>
+        <div class="e" onmouseover="change(this);"></div>
+        <div class="e" onmouseover="change(this);"></div>
+        <div class="e" onmouseover="change(this);"></div>
+    </div>
+    <script>
+        function change(d) {
+            d.style.backgroundColor = "pink";
+            const el = d.parentElement.children;
+            for (let i = 0; i < el.length; i++) el[i].style.backgroundColor = "red";
+        }
+ 
+        function log(i) {
+            return function () {
+                console.log(i);
+            }
+        }
+ 
+        for (var i = 0; i < 5; i++) {   // var vs let
+            let b = document.createElement("button");
+            b.innerText = "ok";
+            b.onclick = log(i);
+            document.body.append(b);
+        }
+    </script>
+</body>
+ 
+</html>

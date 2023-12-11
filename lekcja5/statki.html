@@ -1,16 +1,65 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        h1 {color: red}
-</style>
+        h1 {
+            color: red
+        }
+
+        .statek {
+            height: 10px;
+            width: 10px;
+            border: 1px solid black;
+        }
+    </style>
 </head>
+    <script>
+        //deklaracja zmiennych
+        var iloscKolumn = 10;
+        var iloscWierszy = 10;
+        let el = "<div class='statek'><\div>";
+        var tablica = [];
+        function getRandomInt(max) {
+            return Math.floor(Math.random() * max);
+        }
+
+        for (let i = 0; i < iloscKolumn + 2; i++) {
+            tablica[i] = [];
+            for (let j = 0; j < iloscWierszy + 2; j++) {
+                tablica[i][j] = 0;
+
+            }
+        }
+
+       
+
+        for (let i = 1; i < iloscKolumn + 1; i++) {
+            for (let j = 1; j < iloscWierszy + 1; j++) {
+                let x = getRandomInt(10)
+                let y = getRandomInt(10)
+                if (x > 1 && x < iloscKolumn - 3 && y > 1 && y < iloscKolumn - 3) {
+                    tablica[i][j] = 1
+                    // el.style.backgroundColor = "black"
+                }
+            }
+        }
+
+        for (let i = 0; i < iloscKolumn; i++) {
+            for (let j = 0; j < iloscWierszy; j++) {
+                let napis = document.getElementById("plansza")
+                napis.innerHTML += el
+            }
+        }
+
+    </script>
 
 <body>
-    
+    <div id='plansza'></div>
 </body>
+
 </html>
