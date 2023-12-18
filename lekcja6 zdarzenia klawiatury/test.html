@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+ 
+        .head {
+            border: solid 1px;
+            width: 50px;
+            height: 50px;
+            background-image: url('https://rembound.com/files/creating-a-snake-game-tutorial-with-html5/snake-graphics.png');
+            background-size: 250px;
+            background-position: -200px 0px;
+        }
+ 
+        .pice {
+            border: solid 1px;
+            width: 50px;
+            height: 50px;
+            float: left;
+        }
+ 
+        #container {
+            width: 500px;
+        }
+    </style>
+</head>
+ 
+<body onkeydown="kd(event)" onkeypress="kP(event)">
+ 
+    <script>
+        function kd(e) {
+            console.log("kd: ", e.which, e.code, e.charCode, e.key);
+        }
+ 
+        function kP(e) {
+            console.log("kp: ", e.which, e.code, e.charCode, e.key);
+        }
+    </script>
+</body>
+<!-- https://rembound.com/files/creating-a-snake-game-tutorial-with-html5/snake-graphics.png -->
+<div class="head"></div>
+<div id="container"></div>
+<script>
+    const game = {
+        width: 10,
+        height: 10,
+        arr: [],
+        init() {
+            this.createPlayfield();
+            console.log(this.arr);
+            this.render()
+        },
+        createPlayfield() {
+            for (let i = 0; i < this.height; i++) {
+                this.arr[i] = []
+                for (let j = 0; j < this.width; j++) {
+                    if (i == 0 || j == 0 || j == this.width - 1 || i == this.height - 1)
+                        this.arr[i][j] = { y: i, x: j, type: 1 }
+                    else
+                        this.arr[i][j] = { y: i, x: j, type: 0 }
+                }
+            }
+        },
+        render() {
+            const c = document.getElementById("container");
+ 
+            for (let i = 0; i < this.height; i++) {
+                for (let j = 0; j < this.width; j++) {
+                    const div = document.createElement("div");
+                    div.classList.add("pice");
+                    div.innerText = this.arr[j][i].type
+                    c.append(div);
+                }
+            }
+        }
+    }
+    game.init();
+ 
+</script>
+ 
+</html>
