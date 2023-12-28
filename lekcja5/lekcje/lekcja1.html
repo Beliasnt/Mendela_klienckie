@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        ob = {
+            numer: 12,
+            wzrost: 176,
+            init() {
+                console.log("()", this); // obiekt
+                this.loguj();
+                this.test(); // chcę THIS!!!!
+                // ob.test(); // tak nie chcę!!!!!
+                let b = document.createElement("button");
+                b.innerText = "Kliknij mnie a pokaze wzrost";
+
+                /*
+                let dys = this;
+                b.onclick = function () {
+                    console.log("tu", this, dys);
+                    this.innerText = dys.wzrost
+                }*/
+
+                /*
+                b.onclick = function (e) {
+                    console.log("tu", this, e.target);
+                    e.target.innerText = this.wzrost
+                }.bind(this);*/
+
+                b.onclick = (e) => {
+                    console.log(this);
+                    e.target.innerText = this.wzrost
+                }
+
+                document.body.append(b);
+            },
+            loguj: function () {
+                console.log("fun()", this); // obiekt
+            },
+            test: () => {
+                console.log("=>", this); // window
+            }
+        }
+
+        document.addEventListener("DOMContentLoaded", (event) => {
+            ob.init();
+        });
+
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

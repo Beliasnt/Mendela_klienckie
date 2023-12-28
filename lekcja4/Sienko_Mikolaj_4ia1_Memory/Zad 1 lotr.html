@@ -95,7 +95,8 @@
                     // Dodanie timera
                     let tryb = document.getElementById("h1").innerHTML.slice(8, 10)
                     let timer = new Date();
-                    timer.setSeconds(timer.getSeconds() + czas)
+                    timer.setSeconds(timer.getSeconds() + parseInt(tryb))
+
                     // Stworzenie interwału który wykonuje się co sekundę
                     let x = setInterval(function () {
 
@@ -116,15 +117,15 @@
                         if (seconds < 10) {
                             seconds = "0" + seconds
                         }
-                        if (miliseconds < 100 && miliseconds > 10){
+                        if (miliseconds < 100 && miliseconds > 10) {
                             miliseconds = "0" + miliseconds
                         }
-                        if (miliseconds < 10){
+                        if (miliseconds < 10) {
                             miliseconds = "00" + miliseconds
                         }
                         // Wypisanie
                         document.getElementById("time").innerHTML =
-                           "0" + minutes + ":" + seconds + "." + miliseconds;
+                            "0" + minutes + ":" + seconds + "." + miliseconds;
 
                         // Wygrana
                         if (zgadnieteKarty.length == 16) {
@@ -152,7 +153,7 @@
                 }
                 pom += `</div>`;
                 main.innerHTML = pom
-                 
+
                 // dynamiczny pasek
                 function pasek() {
                     let pasek = document.getElementById("pasek")
@@ -259,7 +260,7 @@
 
 <body onload="klikanie()">
     <div id="main">
-        <h1 id="h1">MEMORY</h1>
+        <h1>MEMORY</h1>
         <img src="./img1/czolowa.png" alt="czolowa" usemap="#mapa" class="mapa">
         <map name="mapa" id="map">
             <area alt="30" title="30 sekund" href="#" coords="42,40,68,153,332,64,167,50" shape="poly" id="30">

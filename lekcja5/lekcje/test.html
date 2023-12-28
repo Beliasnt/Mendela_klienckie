@@ -1,0 +1,72 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+ 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        button {
+            width: 100px;
+        }
+ 
+        body {
+            height: 100vh;
+        }
+ 
+        .i {
+            width: 50px;
+            height: 50px;
+            border: dashed 1px;
+            float: left;
+        }
+ 
+        #c {
+            height: 50px;
+        }
+    </style>
+    <script>
+        function change(el) {
+            /*
+            console.log(el, el.style.width); // !!!!!!
+            const w = parseInt(getComputedStyle(el).width);
+            el.style.width = (w + 50) + "px";
+            el.setAttribute("style", "border:solid 1px;");
+            */
+        }
+ 
+        function init() {
+ 
+        }
+    </script>
+</head>
+ 
+<body onload="init()" oncontextmenu="console.log('ok');event.preventDefault();">
+    <button style="color:red;" onclick="change(this)">Change</button>
+    <div id="c">
+        <div class="i"></div>
+        <div class="i"></div>
+        <div class="i"></div>
+    </div>
+    <script>
+        /*
+        let el = document.querySelectorAll(".i");
+        el.forEach((el) => {
+            el.onmouseover = function () {
+                this.style.backgroundColor = "red";
+            }
+        })*/
+ 
+        let el = document.getElementById("c");
+        console.log(el);
+        el.onmouseover = function () {
+            console.log(this);
+            this.style.backgroundColor = 'pink';
+            let c = this.children
+        }
+    </script>
+</body>
+ 
+</html>
