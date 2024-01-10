@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        #head {
+            border: solid 1px;
+            width: 50px;
+            height: 50px;
+            background-image: url('https://rembound.com/files/creating-a-snake-game-tutorial-with-html5/snake-graphics.png');
+            background-size: 250px;
+            background-position: -200px 0px;
+        }
+
+        .pice {
+            border: solid 1px;
+            width: 50px;
+            height: 50px;
+            float: left;
+        }
+
+        #container {
+            width: 750px;
+        }
+
+        #fruit {
+            border: solid 1px;
+            width: 50px;
+            height: 50px;
+            background-image: url('https://rembound.com/files/creating-a-snake-game-tutorial-with-html5/snake-graphics.png');
+            background-size: 250px;
+            background-position: 0px -150px;
+        }
+
+        .poziom {
+            border: solid 1px;
+            width: 50px;
+            height: 50px;
+            background-image: url('https://rembound.com/files/creating-a-snake-game-tutorial-with-html5/snake-graphics.png');
+            background-size: 250px;
+            background-position: -50px 0px;
+        }
+
+        .pion {
+            border: solid 1px;
+            width: 50px;
+            height: 50px;
+            background-image: url('https://rembound.com/files/creating-a-snake-game-tutorial-with-html5/snake-graphics.png');
+            background-size: 250px;
+            background-position: -100px -50px;
+        }
+
+        .zakret {
+            border: solid 1px;
+            width: 50px;
+            height: 50px;
+            background-image: url('https://rembound.com/files/creating-a-snake-game-tutorial-with-html5/snake-graphics.png');
+            background-size: 250px;
+        }
+
+        #tail {
+            border: solid 1px;
+            width: 50px;
+            height: 50px;
+            background-image: url('https://rembound.com/files/creating-a-snake-game-tutorial-with-html5/snake-graphics.png');
+            background-size: 250px;
+            background-position: 0px 0px;
+        }
+
+        .border {
+            background-color: black;
+        }
+    </style>
+</head>
+
+<body onload="game.init();">
+    <div id="container"></div>
+</body>
+<!-- https://rembound.com/files/creating-a-snake-game-tutorial-with-html5/snake-graphics.png -->
+
+<script>
+    const game = {
+        width: 15,
+        height: 15,
+        arr: [],
+        snake: [],
+        head: document.getElementById("head"),
+        fruit: document.getElementById("fruit"),
+        pos: '',
+        headPos: [],
+        fruitPos: [],
+        init() {
+            this.createPlayfield();
+            console.log(this.arr);
+            this.render()
+            this.movement()
+            this.generateFruit()
+            this.collison()
+            setInterval(this.automaticMovement, 150)
+        },
+        createPlayfield() {
+            for (let i = 0; i < this.height; i++) {
+                this.arr[i] = []
+                for (let j = 0; j < this.width; j++) {
+                    if (i == 0 || j == 0 || j == this.width - 1 || i == this.height - 1)
+                        this.arr[i][j] = { y: i, x: j, type: 1 }
+                    else
+                        this.arr[i][j] = { y: i, x: j, type: 0 }
+                }
+            }
+        },
+
+        render() {
+            const c = document.getElementById("container");
+            for (let i = 0; i < this.height; i++) {
+                for (let j = 0; j < this.width; j++) {
+                    const div = document.createElement("div");
+                    div.classList.add("pice");
+                    if (this.arr[j][i].type == 1) {
+                        div.classList.add("border")
+                    }
+                    // div.innerText = this.arr[j][i].type
+                    this.arr[j][i].element = div;
+                    c.append(div);
+                }
+            }
+        },
+        movement() {
+            // let x = 7
+            // let y = 7
+            // let head = game.arr[x][y].element
+            // head.id = "head"
+            // console.log(head)
+            document.addEventListener("keydown", function (event) {
+                if (event.keyCode === 38 && game.pos != 'down') {
+                    // strzałka w górę - zmieniamy parametry na -150px 0px
+                    game.pos = 'up'
+
+                } else if (event.keyCode === 40 && game.pos != 'up') {
+                    // strzałka w dół - zmieniamy parametry na -200px -50px
+                    game.pos = 'down'
+
+                } else if (event.keyCode === 37 && game.pos != 'right') {
+                    // strzałka w lewo - zmieniamy parametry na -150px -50px
+                    game.pos = 'left'
+
+                } else if (event.keyCode === 39 && game.pos != 'left') {
+                    // strzałka w prawo - zmieniamy parametry na -200px -px
+                    game.pos = 'right'
+                }
+            })
+        },
+        generateFruit() {
+            let badPlaceCounter = 0
+            let randomX = 0
+            let randomY = 0
+            while (badPlaceCounter < (game.snake.length / 2) + 1) {
+                badPlaceCounter = 0
+                randomX = Math.floor(Math.random() * 13 + 1)
+                randomY = Math.floor(Math.random() * 13 + 1)
+                for (let i = 0; i < game.snake.length; i += 2) {
+                    if (randomX != game.snake[i] || randomY != game.snake[i + 1]) {
+                        badPlaceCounter++
+                    }
+                }
+                if (randomX != game.headPos[0] || randomY != game.headPos[1]) {
+                    badPlaceCounter++
+                }
+                console.log(badPlaceCounter);
+            }
+
+            let fruit = game.arr[randomX][randomY].element
+            fruit.id = "fruit"
+            game.fruitPos.push(randomX, randomY)
+        },
+        expand() {
+            if (game.headPos[0] == game.fruitPos[0] && game.headPos[1] == game.fruitPos[1]) {
+                let x = 0
+                let y = 0
+                if (game.snake.length > 0) {
+                    x = game.snake[game.snake.length - 2]
+                    y = game.snake[game.snake.length - 1]
+                }
+                else {
+                    x = game.headPos[0]
+                    y = game.headPos[1]
+                }
+                game.snake.push(x, y) //CHANGED HERE
+                game.fruitPos = []
+                game.generateFruit()
+
+            }
+        },
+        snakeMove(old_x, old_y) { //CHANGED THIS FUNCTION
+            let old_snake = [...game.snake] //taki zapis to KOPIOWANIE tablicy 
+            for (let i = 0; i < game.snake.length; i += 2) { //length-2, bo ostatni element i tak zostanie nadpisany przez wcześniejszy, a nie chcemy błędów
+                game.arr[game.snake[i]][game.snake[i + 1]].element.classList.remove("poziom")
+                game.arr[game.snake[i]][game.snake[i + 1]].element.classList.remove("pion")
+                game.arr[game.snake[i]][game.snake[i + 1]].element.classList.remove("zakret")
+                game.arr[game.snake[i]][game.snake[i + 1]].element.id = ""
+                game.arr[game.snake[i]][game.snake[i + 1]].element.style.backgroundPosition = ""
+                if (i == 0) { //pierwszy element za głową dostaje jej starą pozycję
+                    game.snake[i] = old_x
+                    game.snake[i + 1] = old_y
+                    for (let j = 0; j < game.snake.length; j += 2) {
+                        if (game.snake.length == 2 && game.pos == "down") {
+                            game.arr[game.snake[i]][game.snake[i + 1]].element.id = "tail"
+                            game.arr[game.snake[i]][game.snake[i + 1]].element.style.backgroundPosition = "-200px -150px"
+                        }
+                        else if (game.snake.length == 2 && game.pos == "up") {
+                            game.arr[game.snake[i]][game.snake[i + 1]].element.id = "tail"
+                            game.arr[game.snake[i]][game.snake[i + 1]].element.style.backgroundPosition = "-150px -100px"
+                        }
+                        else if (game.snake.length == 2 && game.pos == "left") {
+                            game.arr[game.snake[i]][game.snake[i + 1]].element.id = "tail"
+                            game.arr[game.snake[i]][game.snake[i + 1]].element.style.backgroundPosition = "-150px -150px"
+                        }
+                        else if (game.snake.length == 2 && game.pos == "right") {
+                            game.arr[game.snake[i]][game.snake[i + 1]].element.id = "tail"
+                            game.arr[game.snake[i]][game.snake[i + 1]].element.style.backgroundPosition = "-200px -100px"
+                        }
+                        else if (game.headPos[0] != game.snake[i + 2]) {
+                            game.arr[game.snake[i]][game.snake[i + 1]].element.classList.add("poziom")
+                        }
+                        else if (game.headPos[1] != game.snake[i + 3]) {
+                            game.arr[game.snake[i]][game.snake[i + 1]].element.classList.add("pion")
+                        }
+                    }
+                }
+                else {
+                    game.snake[i] = old_snake[i - 2]
+                    game.snake[i + 1] = old_snake[i - 1]
+                    for (let j = 0; j < game.snake.length; j += 2) {
+                        console.log(j + 1, game.snake.length - 1)
+                        if (i == game.snake.length - 2) { //ostatni fragment
+                            if (game.snake[game.snake.length - 4] == game.snake[game.snake.length - 2] && game.snake[game.snake.length - 3] > game.snake[game.snake.length - 1]) { //skręt w dół
+                                game.arr[game.snake[i]][game.snake[i + 1]].element.id = "tail"
+                                game.arr[game.snake[i]][game.snake[i + 1]].element.style.backgroundPosition = "-200px -150px"
+                            }
+                            else if (game.snake[game.snake.length - 4] == game.snake[game.snake.length - 2] && game.snake[game.snake.length - 3] < game.snake[game.snake.length - 1]) { //skręt w górę
+                                game.arr[game.snake[i]][game.snake[i + 1]].element.id = "tail"
+                                game.arr[game.snake[i]][game.snake[i + 1]].element.style.backgroundPosition = "-150px -100px"
+                            }
+                            else if (game.snake[game.snake.length - 4] < game.snake[game.snake.length - 2] && game.snake[game.snake.length - 3] == game.snake[game.snake.length - 1]) { //skręt w dół
+                                game.arr[game.snake[i]][game.snake[i + 1]].element.id = "tail"
+                                game.arr[game.snake[i]][game.snake[i + 1]].element.style.backgroundPosition = "-150px -150px"
+                            }
+                            else if (game.snake[game.snake.length - 4] > game.snake[game.snake.length - 2] && game.snake[game.snake.length - 3] == game.snake[game.snake.length - 1]) { //skręt w dół
+                                game.arr[game.snake[i]][game.snake[i + 1]].element.id = "tail"
+                                game.arr[game.snake[i]][game.snake[i + 1]].element.style.backgroundPosition = "-200px -100px"
+                            }
+                        }
+                        else if (game.snake[i - 1] == game.snake[i + 3]) { //poziom
+                            game.arr[game.snake[i]][game.snake[i + 1]].element.classList.add("poziom")
+                        }
+                        else if (game.snake[i - 2] == game.snake[i + 2] ) { //pion
+                            game.arr[game.snake[i]][game.snake[i + 1]].element.classList.add("pion")
+                        }
+                        else if (game.snake[i - 1] > game.snake[i + 1]) {
+                            game.arr[game.snake[i]][game.snake[i + 1]].element.classList.add("zakret")
+                            game.arr[game.snake[i]][game.snake[i + 1]].element.style.backgroundPosition = "0px 0px"
+                        }
+                        else if (game.snake[i - 1] < game.snake[i + 1]) {
+                            game.arr[game.snake[i]][game.snake[i + 1]].element.classList.add("zakret")
+                            game.arr[game.snake[i]][game.snake[i + 1]].element.style.backgroundPosition = "-100px -100px"
+                        }
+                        else if (game.snake[i - 2] < game.snake[i]) {
+                            game.arr[game.snake[i]][game.snake[i + 1]].element.classList.add("zakret")
+                            game.arr[game.snake[i]][game.snake[i + 1]].element.style.backgroundPosition = "-100px 0px"
+                        }
+                        else if (game.snake[i - 2] > game.snake[i]) {
+                            game.arr[game.snake[i]][game.snake[i + 1]].element.classList.add("zakret")
+                            game.arr[game.snake[i]][game.snake[i + 1]].element.style.backgroundPosition = "-0px -50px"
+                        }
+                    }
+                }
+            }
+        },
+        collison() {
+            if (game.headPos[0] == 0 || game.headPos[0] == game.width - 1 || game.headPos[1] == 0 || game.headPos[1] == game.width - 1) {
+                confirm("przegrałeś")
+                game.headPos = [],
+                    game.fruitPos = [],
+                    game.init()
+                location.reload()
+            }
+            for (let i = 0; i < game.snake.length; i += 2) {
+                if (game.headPos[0] == game.snake[i] && game.headPos[1] == game.snake[i + 1] && game.snake.length > 3) {
+                    confirm("przegrałeś")
+                    game.headPos = [],
+                        game.fruitPos = [],
+                        game.init()
+                    location.reload()
+                }
+            }
+        },
+        automaticMovement() {
+            let x = 7
+            let y = 7
+            if (game.headPos.length > 0) {
+                x = game.headPos[0]
+                y = game.headPos[1]
+            }
+            let head = game.arr[x][y].element
+            head.id = "head"
+            let old_x = game.headPos[0]
+            let old_y = game.headPos[1]
+            if (game.pos == 'up') {
+                // strzałka w górę - zmieniamy parametry na -150px 0px
+                game.headPos = []
+                head.style.backgroundPosition = ""
+                head.id = ""
+                y--
+                head = game.arr[x][y].element
+                head.id = "head"
+                head.style.backgroundPosition = "-150px 0px";
+                game.headPos.push(x, y)
+                game.snakeMove(old_x, old_y)
+
+
+            } else if (game.pos == 'down') {
+                // strzałka w dół - zmieniamy parametry na -200px -50px
+                game.headPos = []
+                head.style.backgroundPosition = ""
+                head.id = ""
+                y++
+                head = game.arr[x][y].element
+                head.id = "head"
+                head.style.backgroundPosition = "-200px -50px";
+                game.headPos.push(x, y)
+                game.snakeMove(old_x, old_y)
+
+
+            } else if (game.pos == 'left') {
+                // strzałka w lewo - zmieniamy parametry na -150px -50px
+                game.headPos = []
+                head.style.backgroundPosition = ""
+                head.id = ""
+                x--
+                head = game.arr[x][y].element
+                head.id = "head"
+                head.style.backgroundPosition = "-150px -50px";
+                game.headPos.push(x, y)
+                game.snakeMove(old_x, old_y)
+
+            } else if (game.pos == 'right') {
+                // strzałka w prawo - zmieniamy parametry na -200px -px
+                game.headPos = []
+                head.style.backgroundPosition = ""
+                head.id = ""
+                x++
+                head = game.arr[x][y].element
+                head.id = "head"
+                head.style.backgroundPosition = "-200px -0px";
+                game.headPos.push(x, y)
+                game.snakeMove(old_x, old_y)
+            }
+            game.collison()
+            game.expand()
+        }
+    }
+</script>
+
+</html>

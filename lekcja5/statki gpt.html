@@ -1,0 +1,142 @@
+Ostateczny kod HTML z powyższymi zmianami wyglądałby tak:
+
+
+copy
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        h1 {
+            color: red
+        }
+
+        .statek {
+            height: 10px;
+            width: 10px;
+            border: 1px solid black;
+            background-color: white;
+            margin: 1px;
+            display: inline-block;
+        }
+
+        .statek.black {
+            background-color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Plansza:</h1>
+    <div id='plansza'></div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var iloscKolumn = 10;
+            var iloscWierszy = 10;
+            var tablica = [];
+            var planszaDiv = document.getElementById("plansza");
+            var el = "<div class='statek'></div>";
+            var elBlack = "<div class='statek black'></div>";
+            function getRandomInt(max) {
+                return Math.floor(Math.random() * max);
+            }
+            // Generowanie planszy
+            for (let i = 0; i < iloscKolumn + 2; i++) {
+                tablica[i] = [];
+                for (let j = 0; j < iloscWierszy + 2; j++) {
+                    tablica[i][j] = 0;
+                }
+            }
+            // Losowe rozmieszczenie statków
+            var orientacja = ["poziomo", "pionowo"];
+            var statki = [{
+                ilosc: 1,
+                dlugosc: 4
+            }, {
+                ilosc: 2,
+                dlugosc: 3
+            }, {
+                ilosc: 3,
+                dlugosc: 2
+            }, {
+                ilosc: 4,
+                dlugosc: 1
+            }];
+            function czyMoznaPostawicStatek(x, y, orientacja, dlugosc) {
+                if (orientacja === "poziomo") {
+                    for (let i = 0; i < dlugosc; i++) {
+                        if (x + i >= iloscKolumn) {
+                            return false;
+                        }
+                        if (tablica[x + i][y] == 1) {
+                            return false;
+                        }
+                        if (tablica[x + i][y - 1] == 1 || tablica[x + i][y + 1] == 1) {
+                            return false;
+                        }
+                        if (tablica[x + i - 1][y] == 1 || tablica[x + i + 1][y] == 1) {
+                            return false;
+                        }
+                    }
+                } else if (orientacja === "pionowo") {
+                    for (let i = 0; i < dlugosc; i++) {
+                        if (y + i >= iloscWierszy) {
+                            return false;
+                        }
+                        else if (tablica[x][y + i] == 1) {
+                            return false;
+                        }
+                        else if (tablica[x - 1][y + i] == 1 || tablica[x + 1][y + i] == 1) {
+                            return false;
+                        }
+                        else if (tablica[x][y + i - 1] == 1 || tablica[x][y + i + 1] == 1) {
+                            return false;
+                        }
+                    }
+                }
+                return true;
+            }
+            function ustawStatek(x, y, orientacja, dlugosc) {
+                if (orientacja === "poziomo") {
+                    for (let i = 0; i < dlugosc; i++) {
+                        tablica[x + i][y] = 1;
+                    }
+                } else if (orientacja === "pionowo") {
+                    for (let i = 0; i < dlugosc; i++) {
+                        tablica[x][y + i] = 1;
+                    }
+                }
+            }
+            for (let s = 0; s < statki.length; s++) {
+                for (let i = 0; i < statki[s].ilosc; i++) {
+                    let x = getRandomInt(iloscKolumn);
+                    let y = getRandomInt(iloscWierszy);
+                    let o = orientacja[getRandomInt(2)];
+                    let dlugosc = statki[s].dlugosc;
+                    if (czyMoznaPostawicStatek(x, y, o, dlugosc)) {
+                        ustawStatek(x, y, o, dlugosc);
+                    } else {
+                        i--;
+                    }
+                }
+            }
+            // Wyświetlanie planszy
+            for (let i = 0; i < iloscKolumn; i++) {
+                for (let j = 0; j < iloscWierszy; j++) {
+                    if (tablica[i][j] === 1) {
+                        planszaDiv.innerHTML += elBlack;
+                    } else {
+                        planszaDiv.innerHTML += el;
+                    }
+                }
+                planszaDiv.innerHTML += "<br/>";
+            }
+        });
+    </script>
+</body>
+
+</html>

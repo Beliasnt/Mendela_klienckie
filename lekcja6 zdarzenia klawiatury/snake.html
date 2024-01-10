@@ -10,7 +10,7 @@
             box-sizing: border-box;
         }
 
-        .head {
+        #head {
             border: solid 1px;
             width: 50px;
             height: 50px;
@@ -27,7 +27,23 @@
         }
 
         #container {
-            width: 500px;
+            width: 750px;
+        }
+
+        #fruit {
+            border: solid 1px;
+            width: 50px;
+            height: 50px;
+            background-image: url('https://rembound.com/files/creating-a-snake-game-tutorial-with-html5/snake-graphics.png');
+            background-size: 250px;
+            background-position: 0px -150px;
+        }
+
+        .tail {
+            border: solid 1px;
+            width: 50px;
+            height: 50px;
+            background-color: green;
         }
     </style>
 </head>
@@ -39,14 +55,24 @@
 
 <script>
     const game = {
-        width: 10,
-        height: 10,
+        width: 15,
+        height: 15,
         arr: [],
+        snake: [],
+        head: document.getElementById("head"),
+        fruit: document.getElementById("fruit"),
+        pos: '',
+        headPos: [],
+        fruitPos: [],
         init() {
             this.createPlayfield();
             console.log(this.arr);
             this.render()
             this.movement()
+            this.generateFruit()
+            this.collison()
+            setInterval(this.expand, 50)
+            setInterval(this.collison, 50)
         },
         createPlayfield() {
             for (let i = 0; i < this.height; i++) {
@@ -59,9 +85,9 @@
                 }
             }
         },
+
         render() {
             const c = document.getElementById("container");
-
             for (let i = 0; i < this.height; i++) {
                 for (let j = 0; j < this.width; j++) {
                     const div = document.createElement("div");
@@ -71,24 +97,124 @@
                     c.append(div);
                 }
             }
-
-
         },
         movement() {
-            let head = game.arr[5][5].element
-            console.log(head)
-            head.classList.add("head")
-            addEventListener("onkeypress", function () {
-                console.log("bruh")
+            let x = 7
+            let y = 7
+            let head = game.arr[x][y].element
+            head.id = "head"
+
+            document.addEventListener("keydown", function (event) {
+                if (event.keyCode === 38) {
+                    // strzałka w górę - zmieniamy parametry na -150px 0px
+                    game.headPos = []
+                    head.style.backgroundPosition = ""
+                    head.id = ""
+                    y--
+                    head = game.arr[x][y].element
+                    head.id = "head"
+                    head.style.backgroundPosition = "-150px 0px";
+                    game.headPos.push(x, y)
+                    game.pos = 'up'
+                    game.snakeMove()
+
+
+                } else if (event.keyCode === 40) {
+                    // strzałka w dół - zmieniamy parametry na -200px -50px
+                    game.headPos = []
+                    head.style.backgroundPosition = ""
+                    head.id = ""
+                    y++
+                    head = game.arr[x][y].element
+                    head.id = "head"
+                    head.style.backgroundPosition = "-200px -50px";
+                    game.headPos.push(x, y)
+                    game.pos = 'down'
+                    game.snakeMove()
+
+
+                } else if (event.keyCode === 37) {
+                    // strzałka w lewo - zmieniamy parametry na -150px -50px
+                    game.headPos = []
+                    head.style.backgroundPosition = ""
+                    head.id = ""
+                    x--
+                    head = game.arr[x][y].element
+                    head.id = "head"
+                    head.style.backgroundPosition = "-150px -50px";
+                    game.headPos.push(x, y)
+                    game.pos = 'left'
+                    game.snakeMove()
+
+                } else if (event.keyCode === 39) {
+                    // strzałka w prawo - zmieniamy parametry na -200px -px
+                    game.headPos = []
+                    head.style.backgroundPosition = ""
+                    head.id = ""
+                    x++
+                    head = game.arr[x][y].element
+                    head.id = "head"
+                    head.style.backgroundPosition = "-200px -0px";
+                    game.headPos.push(x, y)
+                    game.pos = 'right'
+                    game.snakeMove()
+                }
             })
+        },
+        generateFruit() {
+            let randomX = Math.floor(Math.random() * 13 + 1)
+            let randomY = Math.floor(Math.random() * 13 + 1)
+            let fruit = game.arr[randomX][randomY].element
+            fruit.id = "fruit"
+            game.fruitPos.push(randomX, randomY)
+        },
+        expand() {
+            if (game.headPos[0] == game.fruitPos[0] && game.headPos[1] == game.fruitPos[1]) {
+                let x = game.fruitPos[0]
+                let y = game.fruitPos[1]
+                game.snake.push(x, y)
+                console.log(game.snake)
+                game.fruitPos = []
+                game.generateFruit()
 
-        }
-
+            }
+        },
+        snakeMove() {
+            console.log(game.snake)
+            for (let i = 0; i < game.snake.length; i += 2) {
+                let x = game.snake[i]
+                let y = game.snake[i + 1]
+                let tail = game.arr[x][y].element
+                tail.classList.remove("tail")
+                tail.classList.add("tail")
+                if (game.pos == 'right') {
+                    x++
+                    game.snake[i] = x
+                }
+                else if (game.pos == 'left') {
+                    x--
+                    game.snake[i] = x
+                }
+                else if (game.pos == 'up') {
+                    y--
+                    game.snake[i + 1] = y
+                }
+                else if (game.pos == 'down') {
+                    y++
+                    game.snake[i + 1] = y
+                }
+            }
+        },
+        collison() {
+            if (game.headPos[0] == 0 || game.headPos[0] == game.width - 1 || game.headPos[1] == 0 || game.headPos[1] == game.width - 1) {
+                confirm("przegrałeś")
+                game.headPos = [],
+                    game.fruitPos = [],
+                    game.init()
+                location.reload()
+            }
+        },
     }
-
-
-
-
 </script>
 
 </html>

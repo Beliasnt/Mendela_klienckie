@@ -18,48 +18,49 @@
         }
     </style>
 </head>
-    <script>
-        //deklaracja zmiennych
-        var iloscKolumn = 10;
-        var iloscWierszy = 10;
-        let el = "<div class='statek'><\div>";
-        var tablica = [];
-        function getRandomInt(max) {
-            return Math.floor(Math.random() * max);
+<script>
+    //deklaracja zmiennych
+    var iloscKolumn = 10;
+    var iloscWierszy = 10;
+    let el = "<div class='statek'><\div>";
+    var tablica = [];
+    function getRandomInt(max) {
+        return Math.floor(Math.random() * max);
+    }
+
+    for (let i = 0; i < iloscKolumn + 2; i++) {
+        tablica[i] = [];
+        for (let j = 0; j < iloscWierszy + 2; j++) {
+            tablica[i][j] = 0;
+
         }
+    }
 
-        for (let i = 0; i < iloscKolumn + 2; i++) {
-            tablica[i] = [];
-            for (let j = 0; j < iloscWierszy + 2; j++) {
-                tablica[i][j] = 0;
 
+
+    for (let i = 1; i < iloscKolumn + 1; i++) {
+        for (let j = 1; j < iloscWierszy + 1; j++) {
+            let x = getRandomInt(iloscWierszy)
+            let y = getRandomInt(iloscKolumn)
+            if (x > 1 && x < iloscKolumn - 3 && y > 1 && y < iloscKolumn - 3) {
+                tablica[i][j] = 1
+                // el.style.backgroundColor = "black"
             }
         }
+    }
 
-       
-
-        for (let i = 1; i < iloscKolumn + 1; i++) {
-            for (let j = 1; j < iloscWierszy + 1; j++) {
-                let x = getRandomInt(10)
-                let y = getRandomInt(10)
-                if (x > 1 && x < iloscKolumn - 3 && y > 1 && y < iloscKolumn - 3) {
-                    tablica[i][j] = 1
-                    // el.style.backgroundColor = "black"
-                }
-            }
+    for (let i = 0; i < iloscKolumn; i++) {
+        for (let j = 0; j < iloscWierszy; j++) {
+            let napis = document.getElementById("plansza")
         }
+    }
+    console.log(tablica)
 
-        for (let i = 0; i < iloscKolumn; i++) {
-            for (let j = 0; j < iloscWierszy; j++) {
-                let napis = document.getElementById("plansza")
-                napis.innerHTML += el
-            }
-        }
-
-    </script>
+</script>
 
 <body>
-    <div id='plansza'></div>
+    <div id='plansza'>
+    </div>
 </body>
 
 </html>
