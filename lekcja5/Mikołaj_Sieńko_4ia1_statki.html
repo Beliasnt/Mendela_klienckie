@@ -117,13 +117,13 @@
                 const endY = y + (length - 1);
 
                 if (endX >= boardSize || endY >= boardSize) {
-                    return false; // Ship goes out of bounds
+                    return false; // Statek wychodzi poza granice
                 }
 
                 for (let i = Math.max(0, x - 1); i <= Math.min(boardSize - 1, endX + 1); i++) {
                     for (let j = Math.max(0, y - 1); j <= Math.min(boardSize - 1, endY + 1); j++) {
                         if (targetBoard[i][j] !== 0) {
-                            return false; // Ship touches another ship
+                            return false; // Statek dotyka innego statku
                         }
                     }
                 }
@@ -132,7 +132,7 @@
                     targetBoard[x + i * dx][y + i * dy] = length;
                 }
 
-                return true;
+                return true; // Statek może zostać postawiony
             }
 
             function renderBoard() {
@@ -169,43 +169,25 @@
                 }
             }
 
-            function getRandomCoordinate() {
-                const x = Math.floor(Math.random() * boardSize);
-                const y = Math.floor(Math.random() * boardSize);
-                return { x, y };
-            }
-
-            function botShoot() {
-                let shotCoords;
-                do {
-                    shotCoords = getRandomCoordinate();
-                } while (board[shotCoords.x][shotCoords.y] === 'hit' || board[shotCoords.x][shotCoords.y] === 'miss');
-
-                const cell = document.getElementById(`${shotCoords.x + 1}-${shotCoords.y + 1}`);
-
-                if (board[shotCoords.x][shotCoords.y] !== 0) {
-                    // Hit
-                    board[shotCoords.x][shotCoords.y] = 'hit';
-                    cell.classList.add('hit');
-                } else {
-                    // Miss
-                    board[shotCoords.x][shotCoords.y] = 'miss';
-                    // cell.classList.add('miss');
-                }
-            }
-
-            function playerShoot(x, y) {
+            function handleShot(x, y) {
                 const cell = document.getElementById(`E-${x + 1}-${y + 1}`);
 
                 if (enemyBoard[x][y] !== 0) {
                     // Hit
-                    enemyBoard[x][y] = 'hit';
+                    enemyBoard[x][y] = 1;
                     cell.classList.add('hit');
+                    hitCount++;
                 } else {
                     // Miss
                     enemyBoard[x][y] = 'miss';
                     cell.classList.add('miss');
-                    botShoot(); // Bot shoots after player's shot
+                }
+
+                if (hitCount === 20) {
+                    setTimeout(function () {
+                        window.alert('Congratulations! You won!');
+                        resetGame();
+                    }, 100)
                 }
             }
 
@@ -216,19 +198,16 @@
                     if (cell && !cell.classList.contains('hit') && !cell.classList.contains('miss')) {
                         const [player, x, y] = cell.id.split('-');
                         if (player === 'E') {
-                            playerShoot(parseInt(x) - 1, parseInt(y) - 1);
+                            handleShot(parseInt(x) - 1, parseInt(y) - 1);
                         }
                     }
                 });
             }
 
-
             function initGameEnemy() {
                 placeShips(enemyBoard);
                 renderEnemyBoard();
                 addClickListenerToEnemyBoard();
-
-
             }
 
             function initGame() {

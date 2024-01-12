@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ship Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        #game-container {
+            text-align: center;
+        }
+
+        #board {
+            display: grid;
+            grid-template-columns: repeat(10, 40px);
+            margin: 20px auto;
+        }
+
+        #enemyBoard {
+            display: grid;
+            grid-template-columns: repeat(10, 40px);
+            margin: 20px auto;
+        }
+
+        .cell {
+            width: 40px;
+            height: 40px;
+            border: 1px solid black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .ship {
+            background-color: black;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="game-container">
+        <h1>Ship Game</h1>
+        <div id="board"></div>
+        <button id="startGame" onclick="">Start Game</button>
+        <div id="enemyBoard"></div>
+    </div>
+
+    <script>
+        const game = (function () {
+            const boardSize = 10;
+            const ships = [
+                { length: 4, ilość: 1 },
+                { length: 3, ilość: 2 },
+                { length: 2, ilość: 3 },
+                { length: 1, ilość: 4 }
+            ];
+
+            const board = Array.from(Array(boardSize), () => Array(boardSize).fill(0));
+
+            function placeShips() {
+                for (const ship of ships) {
+                    for (let i = 0; i < ship.ilość; i++) {
+                        placeShip(ship.length);
+                    }
+                }
+            }
+
+            function placeShip(length) {
+                let placed = false;
+
+                while (!placed) {
+                    const x = Math.floor(Math.random() * boardSize);
+                    const y = Math.floor(Math.random() * boardSize);
+                    const kierunek = Math.random() < 0.5;
+
+                    placed = tryPlaceShip(x, y, length, kierunek);
+                }
+            }
+
+            function tryPlaceShip(x, y, length, kierunek) {
+                const dx = kierunek ? 1 : 0;
+                const dy = kierunek ? 0 : 1;
+
+                const endX = x + (length - 1);
+                const endY = y + (length - 1);
+
+                if (endX >= boardSize || endY >= boardSize) {
+                    return false; // Ship goes out of bounds
+                }
+
+                for (let i = Math.max(0, x - 1); i <= Math.min(boardSize - 1, endX + 1); i++) {
+                    for (let j = Math.max(0, y - 1); j <= Math.min(boardSize - 1, endY + 1); j++) {
+                        if (board[i][j] !== 0) {
+                            return false; // Ship touches another ship
+                        }
+                    }
+                }
+
+                for (let i = 0; i < length; i++) {
+                    board[x + i * dx][y + i * dy] = length;
+                }
+
+                return true;
+            }
+
+            function renderBoard() {
+                const boardContainer = document.getElementById('board');
+                boardContainer.innerHTML = '';
+
+                for (let i = 0; i < boardSize; i++) {
+                    for (let j = 0; j < boardSize; j++) {
+                        const cell = document.createElement('div');
+                        cell.classList.add('cell');
+                        if (board[i][j] !== 0) {
+                            cell.classList.add('ship');
+                        }
+                        boardContainer.appendChild(cell);
+                    }
+                }
+            }
+            function renderEnemyBoard() {
+                const boardContainer = document.getElementById('enemyBoard');
+                boardContainer.innerHTML = '';
+
+                for (let i = 0; i < boardSize; i++) {
+                    for (let j = 0; j < boardSize; j++) {
+                        const cell = document.createElement('div');
+                        cell.classList.add('cell');
+                        if (board[i][j] !== 0) {
+                            cell.classList.add('ship');
+                            cell.setAttribute("name", "enemyShip")
+                        }
+                        boardContainer.appendChild(cell);
+                    }
+                }
+            }
+
+            function startGame() {
+                const button = document.getElementById('startGame')
+                button.addEventListener("click", function () {
+                    initGameEnemy()
+                })
+            }
+
+
+            function initGame() {
+                placeShips();
+                renderBoard();
+                startGame();
+            }
+            function initGameEnemy() {
+                placeShips();
+                renderEnemyBoard();
+            }
+
+            return {
+                initGame: initGame,
+            };
+        })();
+
+        // Initial game setup
+        game.initGame();
+        game.initGameEnemy()
+    </script>
+</body>
+
+</html>
