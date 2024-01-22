@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Ship Game</title>
+</head>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    #game-container {
+        text-align: center;
+    }
+
+    #board {
+        display: grid;
+        grid-template-columns: repeat(10, 40px);
+        margin: 20px auto;
+    }
+
+    .cell {
+        width: 40px;
+        height: 40px;
+        border: 1px solid black;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .ship {
+        background-color: black;
+        color: black
+    }
+</style>
+</head>
+
+<body>
+    <div id="game-container">
+        <h1>Ship Game</h1>
+        <div id="board"></div>
+    </div>
+
+    <script>
+
+        class ShipGame {
+            constructor() {
+                this.boardSize = 10;
+                this.board = Array.from(Array(this.boardSize), () => Array(this.boardSize).fill(0));
+                this.ships = [
+                    { length: 4, count: 1 },
+                    { length: 3, count: 2 },
+                    { length: 2, count: 3 },
+                    { length: 1, count: 4 }
+                ];
+
+                // Place ships on the board during game initialization
+                this.placeShips();
+
+                // Render the initial game board
+                this.renderBoard();
+            }
+
+            // Place ships on the game board
+            placeShips() {
+                for (const ship of this.ships) {
+                    for (let i = 0; i < ship.count; i++) {
+                        this.placeShip(ship.length);
+                    }
+                }
+            }
+
+            // Place a single ship on the game board
+            placeShip(length) {
+                let placed = false;
+
+                while (!placed) {
+                    const x = Math.floor(Math.random() * this.boardSize);
+                    const y = Math.floor(Math.random() * this.boardSize);
+                    const isHorizontal = Math.random() < 0.5;
+
+                    placed = this.tryPlaceShip(x, y, length, isHorizontal);
+                }
+            }
+
+            // Check if a ship can be placed at a given position without overlapping
+            tryPlaceShip(x, y, length, isHorizontal) {
+                const dx = isHorizontal ? 1 : 0;
+                const dy = isHorizontal ? 0 : 1;
+
+                const endX = x + (length - 1) * dx;
+                const endY = y + (length - 1) * dy;
+
+                if (endX >= this.boardSize || endY >= this.boardSize) {
+                    return false; // Ship goes out of bounds
+                }
+
+                for (let i = Math.max(0, x - 1); i <= Math.min(this.boardSize - 1, endX + 1); i++) {
+                    for (let j = Math.max(0, y - 1); j <= Math.min(this.boardSize - 1, endY + 1); j++) {
+                        if (this.board[i][j] !== 0) {
+                            return false; // Ship touches another ship
+                        }
+                    }
+                }
+
+                for (let i = 0; i < length; i++) {
+                    this.board[x + i * dx][y + i * dy] = length;
+                }
+
+                return true;
+            }
+
+            // Render the game board in the HTML
+            renderBoard() {
+                const boardContainer = document.getElementById('board');
+                boardContainer.innerHTML = '';
+
+                for (let i = 0; i < this.boardSize; i++) {
+                    for (let j = 0; j < this.boardSize; j++) {
+                        const cell = document.createElement('div');
+                        cell.classList.add('cell');
+
+                        if (this.board[i][j] !== 0) {
+                            cell.textContent = this.board[i][j];
+                            cell.classList.add('ship', `ship-${this.board[i][j]}`);
+                        }
+
+                        boardContainer.appendChild(cell);
+                    }
+                }
+            }
+        }
+
+        // Function to reset the game
+        function resetGame() {
+            const game = new ShipGame();
+        }
+
+        // Initial game setup
+        const game = new ShipGame();
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        .pice {
+            border: solid 1px;
+            width: 50px;
+            height: 50px;
+            float: left;
+        }
+
+        #container {
+            width: 500px;
+        }
+
+        .star {
+            background-color: red;
+        }
+
+        .clicked {
+            background-color: blue
+        }
+    </style>
+</head>
+
+<body onload="game.init();">
+    <div id="container"></div>
+</body>
+<!-- https://rembound.com/files/creating-a-snake-game-tutorial-with-html5/snake-graphics.png -->
+
+<script>
+    const game = {
+        width: 10,
+        height: 10,
+        arr: [],
+        init() {
+            this.createPlayfield();
+            console.log(this.arr);
+            this.render()
+            this.generateStar()
+            this.clickStars()
+        },
+        createPlayfield() {
+            for (let i = 0; i < this.height; i++) {
+                this.arr[i] = []
+                for (let j = 0; j < this.width; j++) {
+                    if (i == 0 || j == 0 || j == this.width - 1 || i == this.height - 1)
+                        this.arr[i][j] = { y: i, x: j, type: 1 }
+                    else
+                        this.arr[i][j] = { y: i, x: j, type: 0 }
+                }
+            }
+        },
+        render() {
+            const c = document.getElementById("container");
+
+            for (let i = 0; i < this.height; i++) {
+                for (let j = 0; j < this.width; j++) {
+                    const div = document.createElement("div");
+                    div.classList.add("pice");
+                    this.arr[j][i].element = div;
+                    c.append(div);
+                }
+            }
+        },
+        generateStar() {
+            for (let i = 0; i < 10; i++) {
+                let randomX = Math.floor(Math.random() * 10)
+                let randomY = Math.floor(Math.random() * 10)
+                let star = game.arr[randomX][randomY].element
+                star.classList.add("star")
+                star.id = i
+            }
+        },
+        clickStars() {
+            let stars = document.getElementsByName("star")
+            // stars.addEventListener("click", function () {
+            //     console.log("halo")
+            // })
+            let j = 0
+            for (let i = 0; i < 10; i++) {
+                let star = document.getElementById(i)
+                star.addEventListener("click", function () {
+                    star.classList.add("clicked")
+                    j++
+                    setTimeout(function () {
+                        star.classList.remove("clicked")
+                        j--
+                    }, 8000)
+                    if (j >= 10) {
+                        window.alert("wygrałeś")
+                    }
+
+                })
+            }
+        }
+    }
+
+
+
+
+
+</script>
+
+</html>

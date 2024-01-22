@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            display: inline;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="main">
+
+    </div>
+    <script>
+        let main = document.getElementById("main")
+        let tab = ["a.png", "l.png", "p.png", "y.png"]
+        let pom = ''
+        for (let i = 0; i < 4; i++) {
+            pom += `<img src="${tab[0]}" id="${i}" alt="${i}">`
+        }
+        main.innerHTML = pom
+
+
+        let first = document.getElementById("0")
+        let sec = document.getElementById("1")
+        let frd = document.getElementById("2")
+        let frth = document.getElementById("3")
+        first.addEventListener("click", clickF)
+        sec.addEventListener("click", clickS)
+        frd.addEventListener("click", clickFr)
+        frth.addEventListener("click", clickFrt)
+        let j = 1
+        function clickF() {
+            this.src = `${tab[j]}`
+            this.name = `${j}`
+            j++
+            if (j == 4) {
+                j = 0
+            }
+            if (first.name == "2" && sec.name == "1" && frd.name == "0" && frth.name == "3") {
+                setTimeout(function () {
+                    window.alert("wygrałeś")
+                }, 100)
+
+            }
+        }
+        let k = 1
+        function clickS() {
+            this.src = `${tab[k]}`
+            this.name = `${k}`
+            k++
+            if (k == 4) {
+                k = 0
+            }
+            if (first.name == "2" && sec.name == "1" && frd.name == "0" && frth.name == "3") {
+                setTimeout(function () {
+                    window.alert("wygrałeś")
+                }, 100)
+
+            }
+        }
+        let t = 1
+        function clickFr() {
+            this.src = `${tab[t]}`
+            this.name = `${t}`
+            t++
+            if (t == 4) {
+                t = 0
+            }
+            if (first.name == "2" && sec.name == "1" && frd.name == "0" && frth.name == "3") {
+                setTimeout(function () {
+                    window.alert("wygrałeś")
+                }, 100)
+
+            }
+        }
+        let q = 1
+        function clickFrt() {
+            this.src = `${tab[q]}`
+            this.name = `${q}`
+            q++
+            if (q == 4) {
+                q = 0
+            }
+            if (first.name == "2" && sec.name == "1" && frd.name == "0" && frth.name == "3") {
+                setTimeout(function () {
+                    window.alert("wygrałeś")
+                }, 100)
+
+            }
+        }
+
+
+    </script>
+</body>
+
+</html>
