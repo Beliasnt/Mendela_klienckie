@@ -5,6 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        @font-face {
+            font-family: "My Custom Font";
+            src: url("PressStart2P.ttf");
+        }
+
+        * {
+            font-family: "My Custom Font", tahoma;
+        }
+    </style>
 </head>
 
 <body>
@@ -13,6 +23,7 @@
         <br>
         <img src="./img/11.gif" alt="location" id="location" style="background-color: rgb(235,211,64);">
         <div> You can go <span id="direction"> </span></div>
+        <input type="text" id="movement" value=" ">
     </div>
     <script>
         class Location {
@@ -95,14 +106,18 @@
                 this.changePlace();
             },
             move(e, dys) {
-                //console.log(e.target, dys);
-                // console.log(e.key);
-                if (e.key == "ArrowUp") dys.y--;
-                if (e.key == "ArrowDown") dys.y++;
-                if (e.key == "ArrowLeft") dys.x--;
-                if (e.key == "ArrowRight") dys.x++;
-                console.log(dys.x, dys.y)
-                dys.changePlace();
+                let mov = document.getElementById("movement").value
+                tekst = mov.toUpperCase()
+                console.log(tekst)
+                if (e.keyCode === 13) {
+                    if (tekst == "North" || tekst == "N") dys.y--;
+                    if (tekst == "South" || tekst == "S") dys.y++;
+                    if (tekst == "WEST" || tekst == "W") dys.x++;
+                    if (tekst == "East" || tekst == "E") dys.x--;
+                    console.log(dys.x, dys.y)
+                    dys.changePlace();
+                    // mov.value = null
+                }
             },
             changePlace() {
                 let place = this.locations[this.y][this.x]
