@@ -13,17 +13,68 @@
 
         * {
             font-family: "My Custom Font", tahoma;
+            background-color: black;
+            color: white;
+
+        }
+
+        #images {
+            position: relative;
+
+        }
+
+        .KE {
+            position: absolute;
+            height: 7px;
+            width: 7px;
+            background-color: black;
+            left: 258px;
+            top: 36px;
+        }
+
+        .KW {
+            position: absolute;
+            height: 7px;
+            width: 7px;
+            background-color: black;
+            left: 151px;
+            top: 37px;
+        }
+
+        .KN {
+            position: absolute;
+            height: 7px;
+            width: 7px;
+            background-color: black;
+            left: 200px;
+            top: 20px;
+        }
+
+        .KS {
+            position: absolute;
+            height: 7px;
+            width: 7px;
+            background-color: black;
+            left: 204px;
+            top: 72px;
         }
     </style>
 </head>
 
 <body>
-    <div>
+    <div class="container">
         <span id="name"></span>
         <br>
-        <img src="./img/11.gif" alt="location" id="location" style="background-color: rgb(235,211,64);">
+        <div id="images">
+            <img src="./img/11.gif" alt="location" id="location" style="background-color: rgb(235,211,64);">
+            <img src="./img/kompas.png" alt="kompas" id="kompas">
+            <div id="KE"></div>
+            <div id="KW"></div>
+            <div id="KS"></div>
+            <div id="KN"></div>
+        </div>
         <div> You can go <span id="direction"> </span></div>
-        <input type="text" id="movement" value=" ">
+        <input type="text" id="movement" value="">
     </div>
     <script>
         class Location {
@@ -116,6 +167,7 @@
                     if (tekst == "East" || tekst == "E") dys.x--;
                     console.log(dys.x, dys.y)
                     dys.changePlace();
+                    dys.kompas()
                     // mov.value = null
                 }
             },
@@ -132,6 +184,35 @@
                 direction.innerText = place.dir
                 if (place == undefined) {
                     console.log("undefined")
+                }
+
+                let kompas = document.getElementById("images")
+                let KE = document.getElementById("KE")
+                let KW = document.getElementById("KW")
+                let KN = document.getElementById("KN")
+                let KS = document.getElementById("KS")
+                KE.classList.add("KE")
+                KW.classList.add("KW")
+                KN.classList.add("KN")
+                KS.classList.add("KS")
+
+                for (let i = 0; i < 4; i++) {
+                    if (place.dir[i] == "W") {
+                        KW.classList.remove("KW")
+                        console.log(KE)
+                    }
+                    if (place.dir[i] == "E") {
+                        KE.classList.remove("KE")
+                        console.log("eSt")
+                    }
+                    if (place.dir[i] == "N") {
+                        KN.classList.remove("KN")
+                        console.log("NOrt")
+                    }
+                    if (place.dir[i] == "S") {
+                        KS.classList.remove("KS")
+                        console.log("Sout")
+                    }
                 }
             }
         }
