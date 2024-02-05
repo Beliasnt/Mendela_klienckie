@@ -1,0 +1,77 @@
+DUP<CTYPE html>
+    <html lang="en">
+    
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Document</title>
+        <script>
+            // 1. setTimout
+            /*
+            console.log("A");
+            setTimeout(() => {
+                console.log("b");
+                setTimeout(() => { console.log("c") }, 2000);
+            }, 2000)
+            */
+    
+            // 2. Callback
+            /*
+            console.log("A");
+    
+            function b(cb) {
+                setTimeout(() => {
+                    console.log("B");
+                    // ...
+                    cb();
+                }, 2000);
+    
+            }
+    
+            c = () => {
+                setTimeout(() => { console.log("C") }, 2000);
+            }
+    
+            b(c);
+            */
+    
+            //3. Promises
+            /*
+            let prom = new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    const l = Math.round(Math.random());
+                    if (l == 0)
+                        resolve("ok:" + l)
+                    else
+                        reject("no:" + l) //dupa
+                }, 2000);
+            })
+    
+            console.log("start");
+            prom.then(
+                (ok) => console.info(ok),
+                (error) => console.error(error) //jakie śmieszki gargamelki
+                
+            )
+            console.log("meta");
+            */
+    
+            //4. Async
+            async function jazda() {
+                let prom = new Promise((resolve) => {
+                    setTimeout(() => { resolve("minęly 2s.") }, 2000);
+                }, 2000);
+                console.log("start");
+                console.log(await prom);
+                console.log("meta");
+            }
+            jazda();
+    
+        </script>
+    </head>
+    
+    <body>
+    
+    </body>
+    
+    </html>
