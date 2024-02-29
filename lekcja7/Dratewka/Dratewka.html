@@ -15,7 +15,6 @@
             font-family: "My Custom Font", tahoma;
             background-color: black;
             color: white;
-
         }
 
         #images {
@@ -57,6 +56,14 @@
             left: 204px;
             top: 72px;
         }
+
+        #movement {
+            text-transform: uppercase
+        }
+
+        #check {
+            margin-bottom: 2px;
+        }
     </style>
 </head>
 
@@ -73,8 +80,9 @@
             <div id="KN"></div>
         </div>
         <div> You can go <span id="direction"> </span></div>
-        <input type="text" id="movement" value="">
         <div id="check"></div>
+
+        <div id="what">What now? <input type="text" id="movement" value="" autofocus onblur="focus()"></div>
     </div>
     <script>
         class Location {
@@ -163,44 +171,80 @@
                 let check = true
                 document.getElementById("check").innerText = ''
                 if (e.keyCode === 13) {
-                    if (tekst == "North" || tekst == "N") {
+                    console.log(document.getElementById("what"))
+                    document.getElementById("what").style.display = "none"
+                    let reset = setTimeout(function () {
+                        document.getElementById("what").style.display = "block"
+                        document.getElementById("check").innerText = ''
+                        document.getElementById("movement").value = ''
+                        document.getElementById("movement").focus()
+                    }, 1000)
+                    if (tekst == "NORTH" || tekst == "N") {
+                        tekst = "N"
                         for (let i = 0; i < 4; i++) {
                             if (place.dir[i] == tekst) {
                                 dys.y--;
                                 check = false
+                                document.getElementById("check").innerText = "You are going north..."
+                                reset()
                             }
                         }
                     }
-                    if (tekst == "South" || tekst == "S") {
+                    if (tekst == "SOUTH" || tekst == "S") {
+                        tekst = "S"
                         for (let i = 0; i < 4; i++) {
                             if (place.dir[i] == tekst) {
                                 dys.y++;
                                 check = false
-
+                                document.getElementById("check").innerText = "You are going south..."
                             }
                         }
                     }
                     if (tekst == "WEST" || tekst == "W") {
+                        tekst = "W"
                         for (let i = 0; i < 4; i++) {
                             if (place.dir[i] == tekst) {
                                 dys.x--;
                                 check = false
-
+                                document.getElementById("check").innerText = "You are going west..."
                             }
                         }
                     }
-                    if (tekst == "East" || tekst == "E") {
-                        console.log(place.dir)
+                    if (tekst == "EAST" || tekst == "E") {
+                        tekst = "E"
                         for (let i = 0; i < 4; i++) {
                             if (place.dir[i] == tekst) {
                                 dys.x++;
                                 check = false
+                                document.getElementById("check").innerText = "You are going east..."
                             }
                         }
                     }
+                    if (tekst == "G" || tekst == "GOSSIPS") {
+                        document.getElementById("check").innerText = `The  woodcutter lost  his home key...
+                        The butcher likes fruit... The cooper
+                        is greedy... Dratewka plans to make a
+                        poisoned  bait for the dragon...  The
+                        tavern owner is buying food  from the
+                        pickers... Making a rag from a bag...
+                        Press any key`
+                        document.getElementById("movement").value = ''
+                        check = false
+                    }
+                    if (tekst == "V" || tekst == "VOCABULARY") {
+                        document.getElementById("check").innerText = `NORTH or N, SOUTH or S
+		                WEST or W, EAST or E
+		                TAKE (object) or T (object)s
+		                DROP (object) or D (object)
+		                USE (object) or U (object)
+		                GOSSIPS or G, VOCABULARY or V
+		                Press any key`
+                        document.getElementById("movement").value = ''
+                        check = false
+                    }
                     if (check) {
                         console.log(check)
-                        document.getElementById("check").innerText = "you can't go that way"
+                        document.getElementById("check").innerText = "You can't go that way"
                     }
                     console.log(dys.x, dys.y)
                     dys.changePlace();
@@ -222,7 +266,6 @@
                 if (place == undefined) {
                     console.log("undefined")
                 }
-
                 let kompas = document.getElementById("images")
                 let KE = document.getElementById("KE")
                 let KW = document.getElementById("KW")
@@ -236,19 +279,15 @@
                 for (let i = 0; i < 4; i++) {
                     if (place.dir[i] == "W") {
                         KW.classList.remove("KW")
-                        console.log("Łest")
                     }
                     if (place.dir[i] == "E") {
                         KE.classList.remove("KE")
-                        console.log("eSt")
                     }
                     if (place.dir[i] == "N") {
                         KN.classList.remove("KN")
-                        console.log("NOrt")
                     }
                     if (place.dir[i] == "S") {
                         KS.classList.remove("KS")
-                        console.log("Sout")
                     }
                 }
             }
