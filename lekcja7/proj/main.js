@@ -6,9 +6,9 @@ new location.Location()
 //console.log(data);
 
 // JSON - uzyj ajax
-fetch('./modules/data.json')
-    .then((response) => response.json())
-    .then((json) => console.log(json));
+// fetch('./modules/data.json')
+//     .then((response) => response.json())
+//     .then((json) => console.log(json));
 
 // default
 /*

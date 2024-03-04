@@ -1,4 +1,4 @@
-class Item {
+export class Item {
     id;
     nameO;
     flag;
@@ -11,7 +11,7 @@ class Item {
     }
 }
 
-const game = {
+export const items = {
     items: [
         new Item("10", "a KEY", "1", "KEY"),
         new Item("11", "an AXE", "1", "AXE"),

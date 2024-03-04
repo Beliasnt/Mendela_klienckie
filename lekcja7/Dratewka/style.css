@@ -1,0 +1,63 @@
+ @font-face {
+     font-family: "My Custom Font";
+     src: url("PressStart2P.ttf");
+ }
+
+ * {
+     font-family: "My Custom Font", tahoma;
+     background-color: black;
+     color: white;
+ }
+
+ #images {
+     position: relative;
+ }
+
+ .KE {
+     position: absolute;
+     height: 7px;
+     width: 7px;
+     background-color: black;
+     left: 258px;
+     top: 36px;
+ }
+
+ .KW {
+     position: absolute;
+     height: 7px;
+     width: 7px;
+     background-color: black;
+     left: 151px;
+     top: 37px;
+ }
+
+ .KN {
+     position: absolute;
+     height: 7px;
+     width: 7px;
+     background-color: black;
+     left: 200px;
+     top: 20px;
+ }
+
+ .KS {
+     position: absolute;
+     height: 7px;
+     width: 7px;
+     background-color: black;
+     left: 204px;
+     top: 72px;
+ }
+
+ #movement {
+     text-transform: uppercase
+ }
+
+ #check {
+     margin-bottom: 2px;
+ }
+
+ #cursor {
+     display: flex;
+     width: 100%;
+ }
