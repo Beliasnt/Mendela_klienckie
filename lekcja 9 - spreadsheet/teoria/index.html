@@ -1,0 +1,39 @@
+-------- index.html ------------
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="index.js"></script>
+    <style>
+        .block {
+            width: 50px;
+            height: 50px;
+            border: solid 1px;
+            background-image: url("sprites.png");
+            background-position: -50px 0px;
+        }
+    </style>
+    <script>
+        function draw() {
+            let canvas = document.getElementById("canvas");
+            let ctx = canvas.getContext("2d");
+            ctx.width = 50;
+            ctx.height = 50;
+            let img = new Image();
+            img.src = "sprites.png";
+            img.onload = function () {
+                ctx.drawImage(this, 100, 0, 50, 50, 0, 0, 50, 50);
+            }
+        }
+    </script>
+</head>
+
+<body onload="draw()">
+    <div class="block"></div>
+    <canvas id="canvas"></canvas>
+</body>
+
+</html>

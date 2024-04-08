@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="./img/favicon.ico">
+
+    <title>Dratewka the Shoemaker</title>
+    <script type="module" src="./main.js"></script>
+    <script src="./wstep.js"></script>
+    <link rel="stylesheet" href="./style.css">
+</head>
+
+<body>
+    <div id="wstep"> <!-- Grafiki ze wstępem-->
+        <audio autoplay>
+            <source src="./img/Hejnal mariacki (2).mp3" type="audio/mpeg">
+        </audio>
+        <img src="./img/czołówka.jpg" id="czołówka">
+        <img src="./img/opis_A.jpg" id="wstep1">
+        <img src="./img/opis_B.jpg" id="wstep2">
+    </div>
+    <div class="container" id="container"> <!--Główna gra-->
+        <span id="name"></span>
+        <br>
+        <div id="images">
+            <img src="./img/31.gif" alt="location" id="location" style="background-color: rgb(235,211,64);">
+            <img src="./img/kompas.png" alt="kompas" id="kompas">
+            <div id="KE"></div>
+            <div id="KW"></div>
+            <div id="KS"></div>
+            <div id="KN"></div>
+        </div>
+        <div id="go">
+            <span>You can go <span id="direction"> </span></span><br>
+            <span>You see <span id="itemsSeen"></span> </span><br>
+            <span>You are carrying <span id="inventory">nothing</span></span>
+        </div>
+
+        <div id="check"></div>
+
+
+        <div id="what">What now? <input type="text" id="movement" value="" autofocus onblur="focus()"
+                autocomplete="one-time-code">
+            <div id="cursor"></div>
+            <div id="whiteBlocks"></div>
+        </div>
+        <img src="./img/911.gif" id="ne">
+    </div>
+    <div id="wygrana"> <!-- Obrazki po wygranej-->
+        <audio id="freebird">
+            <source src="./img/only the best part of free bird.mp3">
+        </audio>
+        <img src="./img/freebird.gif" class="won">
+        <img src="./img/won4.gif" class="won">
+        <img src="./img/won2.gif" class="won">
+        <img src="./img/won5.gif" class="won">
+        <img src="./img/star-wars-finally.gif" class="won">
+        <img src="./img/won3.gif" class="won">
+        <img src="./img/amogus.gif" id="amogus">
+    </div>
+    <h1 style="color: white; z-index: 999;" id="youWon">WYGRAŁEŚ!!1!111!!!!</h1>
+    <img src="./img/rat.gif" id="rat">
+    <audio id="pipe">
+        <source src="./img/pipe.mp3">
+    </audio>
+    <script src="./blok.js"></script>
+</body>
+
+
+</html>

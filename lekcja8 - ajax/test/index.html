@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .hide {
+            display: none;
+        }
+
+        .show {
+            display: block;
+        }
+    </style>
+    <script>
+        function send() {
+            let name = document.getElementById("name").value;
+            let al = document.getElementById("al");
+            al.className = "show";
+            let xhttp = new XMLHttpRequest();
+            xhttp.open("POST", "ajax.php", true);
+
+            xhttp.onreadystatechange = function () {
+                console.log("state:", this.readyState);
+                if (this.readyState == 4 && this.status == 200) {
+                    let ob = JSON.parse(this.responseText);
+                    console.log(ob);
+
+                    al.className = "hide";
+                }
+            };
+
+            xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+            xhttp.send("f=1&name=" + encodeURIComponent(name));   // rawurldecode - decode w PHP
+        }
+    </script>
+</head>
+
+<body>
+    <input type="text" id="name"><button onclick="send()">Send</button>
+    <img id="al" class="hide" src="https://miro.medium.com/v2/resize:fit:400/1*kE6TDV_fn41AMbNJQTjC9A.gif" alt="">
+</body>
+
+</html>

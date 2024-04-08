@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        async function send() {
+            let res = await fetch("https://mendela.pl/egzamin.php?ocena=4");
+            let ob = await res.json();
+            console.log(ob);
+
+        }
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

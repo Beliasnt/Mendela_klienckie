@@ -1,0 +1,100 @@
+ @font-face {
+     font-family: "My Custom Font";
+     src: url("./img/PressStart2P.ttf");
+ }
+
+ * {
+     font-family: "My Custom Font", tahoma;
+     background-color: black;
+     color: white;
+ }
+
+ #images {
+     position: relative;
+ }
+
+ .KE {
+     position: absolute;
+     height: 7px;
+     width: 7px;
+     background-color: black;
+     left: 258px;
+     top: 36px;
+ }
+
+ .KW {
+     position: absolute;
+     height: 7px;
+     width: 7px;
+     background-color: black;
+     left: 151px;
+     top: 37px;
+ }
+
+ .KN {
+     position: absolute;
+     height: 7px;
+     width: 7px;
+     background-color: black;
+     left: 201px;
+     top: 20px;
+ }
+
+ .KS {
+     position: absolute;
+     height: 7px;
+     width: 7px;
+     background-color: black;
+     left: 204px;
+     top: 72px;
+ }
+
+ #movement {
+     text-transform: uppercase;
+     border: black 1px solid;
+     outline: none;
+     caret-color: black;
+ }
+
+ #what {
+     background-color: black;
+ }
+
+ #check {
+     margin-bottom: 2px;
+ }
+
+ #czołówka, #wstep1, #wstep2{
+    height: 93vh;
+    width: 98vw;   
+ }
+
+ .won {
+    height: 30vh;
+    width: 47vw;
+ }
+
+#amogus{
+    z-index: 999;
+    position: absolute;
+    left: 99%;
+    top: 99%;
+    width: 1vw;
+    height: 1vh;
+}
+
+#rat {
+    height: 80vh;
+    width: 80vw;
+    position: absolute;
+    left: 50px;
+    top:62px
+}
+
+#ne{
+    z-index: 999;
+}
+
+#youWon{
+    z-index: 999;
+}

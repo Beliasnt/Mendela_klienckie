@@ -1,0 +1,140 @@
+-------- index.html ------------
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="index.js"></script>
+    <style>
+        .block {
+            width: 50px;
+            height: 50px;
+            border: solid 1px;
+            background-image: url("sprites.png");
+            background-position: -50px 0px;
+        }
+    </style>
+    <script>
+        function draw() {
+            let canvas = document.getElementById("canvas");
+            let ctx = canvas.getContext("2d");
+            ctx.width = 50;
+            ctx.height = 50;
+            let img = new Image();
+            img.src = "sprites.png";
+            img.onload = function () {
+                ctx.drawImage(this, 100, 0, 50, 50, 0, 0, 50, 50);
+            }
+        }
+    </script>
+</head>
+
+<body onload="draw()">
+    <div class="block"></div>
+    <canvas id="canvas"></canvas>
+</body>
+
+</html>
+
+-------- index.js -----------
+//let n : string = prompt("wpisz wiek") as string; //20   string | null
+//let n : string = prompt("wpisz wiek") ?? "";
+//let n : string = <string>prompt("wpisz wiek");
+let n = prompt("wpisz wiekfgff");
+let w = 5;
+let suma;
+suma = w + parseInt(n); // 205 / 25 ?!!!
+let image = document.getElementById("obr");
+image.src = "ffgfg.jpg";
+let arr = [[1]];
+class Klasa {
+    constructor(test) {
+        this.test = test;
+        this.name = "Nazwa";
+        this.test = test;
+    }
+    jazda(param) {
+        // param.width
+        let s = "AAAAAAA";
+    }
+}
+
+
+
+
+-------- index.ts -----------
+//let n : string = prompt("wpisz wiek") as string; //20   string | null
+//let n : string = prompt("wpisz wiek") ?? "";
+//let n : string = <string>prompt("wpisz wiek");
+let n: string = prompt("wpisz wiekfgff")!;
+
+let w = 5;
+let suma: number;
+suma = w + parseInt(n); // 205 / 25 ?!!!
+
+let image = document.getElementById("obr") as HTMLImageElement;
+image.src = "ffgfg.jpg";
+
+let arr: number[][] = [[1]];
+
+interface Test {
+    name: string;
+    width?: number
+}
+
+class Klasa implements Test {
+    name: string; // # private public procted static readonly
+    constructor(private test: string) {
+        this.name = "Nazwa";
+        this.test = test;
+    }
+
+    jazda(param: Test) {
+        // param.width
+        let s = "AAAAAAA";
+    }
+}
+
+
+////// fetch POST
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function send(choice) {
+            fetch('ajax.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: new URLSearchParams({
+                    'choice': choice
+                })
+            });
+        }
+    </script>
+</head>
+
+<body>
+    <button onclick="send('x');">Send X</button>
+    <button onclick="send('o');">Send O</button>
+</body>
+
+</html>
+
+
+/// ajax.php
+<?php
+session_start();
+$_SESSION['who'] = $_POST['choice'];
+echo session_id(); // 250pgqqc3h5a95fut9hchvej95
+print_r($_POST);
+print_r($_SESSION);
+
+
